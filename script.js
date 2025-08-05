@@ -2,6 +2,7 @@
 let backgroundImage;
 let introFont;
 let textFont1;
+let enterButton;
 
 /* PRELOAD LOADS FILES */
 function preload(){
@@ -27,12 +28,12 @@ function draw() {
   if (introFont) {
     // Set up title text
     textFont(introFont);
-    textSize(60);
+    textSize(50);
     fill(255, 255, 255); // White text with full RGB values
     textAlign(CENTER, TOP);
     
     // Draw title at top of screen (adaptive positioning)
-    text("Game Title", width/2, height * 0.075);
+    text("The Lone \nHope", width/2, height * 0.075);
   }
 
 }

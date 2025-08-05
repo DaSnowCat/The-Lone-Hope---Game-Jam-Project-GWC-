@@ -51,8 +51,14 @@ function titleScreen() {
   // Set up title text
   textFont(introFont);
   textSize(50);
-  fill(255, 255, 255);
   textAlign(CENTER, TOP);
+  
+  // Create text gradient from dark purple to light purple
+  let textGradient = drawingContext.createLinearGradient(0, height * 0.075, 0, height * 0.075 + 100);
+  textGradient.addColorStop(0, '#301934'); // Dark purple
+  textGradient.addColorStop(1, '#9A4FE8'); // Light purple
+  
+  drawingContext.fillStyle = textGradient;
   
   // Draw title at top of screen (adaptive positioning)
   text("The Lone \nHope", width/2, height * 0.075);

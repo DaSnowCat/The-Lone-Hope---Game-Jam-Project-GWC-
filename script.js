@@ -29,10 +29,10 @@ function draw() {
     textFont(introFont);
     textSize(60);
     fill(255, 255, 255); // White text with full RGB values
-    textAlign(CENTER, CENTER);
+    textAlign(CENTER, TOP);
     
-    // Draw title at center of screen
-    text("Game Title", width/2, height/2);
+    // Draw title at top of screen
+    text("Game Title", width/2, 50);
   }
 
 }

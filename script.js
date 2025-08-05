@@ -32,7 +32,7 @@ function draw() {
     textAlign(CENTER, TOP);
     
     // Draw title at top of screen
-    text("Game Title", width/2, 50);
+    text("Game Title", width/2, 0);
   }
 
 }

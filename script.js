@@ -27,7 +27,7 @@ function draw() {
   if (introFont) {
     // Set up title text
     textFont(introFont);
-    textSize(64);
+    textSize(60);
     fill(255, 255, 255); // White text with full RGB values
     textAlign(CENTER, CENTER);
     

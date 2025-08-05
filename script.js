@@ -16,6 +16,7 @@ function setup() {
 
 /* DRAW LOOP REPEATS */
 function draw() {
+  background(220); // Light gray background
   //image(backgroundImage,400,400)
 
 }

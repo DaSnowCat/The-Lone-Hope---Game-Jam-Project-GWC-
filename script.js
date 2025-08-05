@@ -21,8 +21,8 @@ function setup() {
   enterButton.w = 150;
   enterButton.h = 40;
   enterButton.color = '#301934';
-  enterButton.stroke = 'cyan';
-  enterButton.strokeWeight = 2;
+  enterButton.stroke = 'yellow';
+  enterButton.strokeWeight = 5;
   enterButton.textColor = 'white';
   enterButton.text = 'Press Enter to Start';
   enterButton.textSize = 12;
@@ -63,8 +63,6 @@ function introScreen(){
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  stroke('black');
-  strokeWeight(10);
   textAlign(CENTER, CENTER);
   text('This is the Intro Screen',
       width/2,

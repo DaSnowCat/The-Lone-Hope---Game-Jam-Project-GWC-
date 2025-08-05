@@ -55,8 +55,8 @@ function titleScreen() {
   
   // Create text gradient from dark purple to light purple
   let textGradient = drawingContext.createLinearGradient(0, height * 0.075, 0, height * 0.075 + 100);
-  textGradient.addColorStop(0, '#301934'); // Dark purple
-  textGradient.addColorStop(1, '#9A4FE8'); // Light purple
+  textGradient.addColorStop(0, '#4A0E4E'); // Dark purple (start)
+  textGradient.addColorStop(1, '#B19CD9'); // Light purple (end)
   
   drawingContext.fillStyle = textGradient;
   

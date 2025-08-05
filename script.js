@@ -21,7 +21,16 @@ function setup() {
 /* DRAW LOOP REPEATS */
 function draw() {
   // Display the background image to fill the entire canvas
-  image(backgroundImage, 0, 0, 400, 400);
+  image(backgroundImage, 0, 0, width, height);
+  
+  // Set up title text
+  textFont(introFont);
+  textSize(48);
+  fill(255); // White text
+  textAlign(CENTER, TOP);
+  
+  // Draw title at center top of screen
+  text("Game Title", width/2, 50);
 
 }
 

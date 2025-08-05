@@ -31,8 +31,8 @@ function draw() {
     fill(255, 255, 255); // White text with full RGB values
     textAlign(CENTER, CENTER);
     
-    // Draw title higher up on screen
-    text("Game Title", width/2, height/3);
+    // Draw title at center of screen
+    text("Game Title", width/2, height/2);
   }
 
 }

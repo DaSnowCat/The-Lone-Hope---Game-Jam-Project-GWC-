@@ -15,7 +15,15 @@ function preload(){
 function setup() {
   createCanvas(400, 400);
   
-  
+  // Create enter button
+  enterButton = createButton('Press Enter to Start');
+  enterButton.position(width/2 - 75, height/2 + 50);
+  enterButton.size(150, 40);
+  enterButton.style('background-color', '#4a4a4a');
+  enterButton.style('color', 'white');
+  enterButton.style('border', '2px solid white');
+  enterButton.style('font-size', '16px');
+  enterButton.style('cursor', 'pointer');
 
 }
 

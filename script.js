@@ -21,6 +21,8 @@ function setup() {
   enterButton.w = 150;
   enterButton.h = 40;
   enterButton.color = '#301934';
+  enterButton.stroke = 'cyan';
+  enterButton.strokeWeight = 2;
   enterButton.textColor = 'white';
   enterButton.text = 'Press Enter to Start';
   enterButton.textSize = 12;

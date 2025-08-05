@@ -26,17 +26,14 @@ function draw() {
   // Display the background image to fill the entire canvas
   image(backgroundImage, 0, 0, width, height);
   
-  // Only draw text if font is loaded
-  if (introFont) {
-    // Set up title text
-    textFont(introFont);
-    textSize(50);
-    fill(255, 255, 255); // White text with full RGB values
-    textAlign(CENTER, TOP);
-    
-    // Draw title at top of screen (adaptive positioning)
-    text("The Lone \nHope", width/2, height * 0.075);
-  }
+  // Set up title text
+  textFont(introFont);
+  textSize(50);
+  fill(255, 255, 255); // White text with full RGB values
+  textAlign(CENTER, TOP);
+  
+  // Draw title at top of screen (adaptive positioning)
+  text("The Lone \nHope", width/2, height * 0.075);
 
 }
 

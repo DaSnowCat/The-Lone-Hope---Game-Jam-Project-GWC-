@@ -8,16 +8,21 @@ function preload(){
 
 /* SETUP RUNS ONCE */
 function setup() {
-  createCanvas(400,400);
+  createCanvas(windowWidth, windowHeight);
   
   
 
 }
 
+/* HANDLE WINDOW RESIZE */
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 /* DRAW LOOP REPEATS */
 function draw() {
   // Display the background image to fill the entire canvas
-  image(backgroundImage, 0, 0, 400, 400);
+  image(backgroundImage, 0, 0, width, height);
 
 }
 

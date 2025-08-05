@@ -1,13 +1,13 @@
 /* VARIABLES */
 let backgroundImage;
 let introFont;
-let textFont;
+let textFont1;
 
 /* PRELOAD LOADS FILES */
 function preload(){
   backgroundImage = loadImage('assets/Purple Gradient Forest.png');
   introFont = loadFont('assets/Melted Monster.ttf');
-  textFont = loadFont('assets/CaveatBrush-Regular.ttf');
+  textFont1 = loadFont('assets/CaveatBrush-Regular.ttf');
 }
 
 /* SETUP RUNS ONCE */

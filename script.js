@@ -61,6 +61,8 @@ function introScreen(){
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
+  stroke('black');
+  strokeWeight(10);
   textAlign(CENTER, CENTER);
   text('This is the Intro Screen',
       width/2,

@@ -14,16 +14,10 @@ function preload(){
 /* SETUP RUNS ONCE */
 function setup() {
   createCanvas(400, 400);
+  enterButton = new Sprite(width/2,height/2 + 100);
   
-  // Create enter button
-  enterButton = createButton('Press Enter to Start');
-  enterButton.position(width/2 - 75, height/2 + 50);
-  enterButton.size(150, 40);
-  enterButton.style('background-color', '#4a4a4a');
-  enterButton.style('color', 'white');
-  enterButton.style('border', '2px solid white');
-  enterButton.style('font-size', '16px');
-  enterButton.style('cursor', 'pointer');
+  
+  
 
 }
 
@@ -47,3 +41,9 @@ function draw() {
 }
 
 /* FUNCTIONS */
+function introScreen(){
+  textsize(15);
+  text('This is the Intro Screen',
+      width/2,
+      height/2 - 150)
+}

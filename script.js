@@ -64,5 +64,5 @@ function introScreen(){
   textAlign(CENTER, CENTER);
   text('This is the Intro Screen',
       width/2,
-      height/2 - 150);
+      height * 0.25);
 }

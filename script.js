@@ -20,7 +20,7 @@ function setup() {
   enterButton = new Sprite(width/2, height/2 + 100);
   enterButton.w = 150;
   enterButton.h = 40;
-  enterButton.color = 'gray';
+  enterButton.color = '#301934';
   enterButton.textColor = 'white';
   enterButton.text = 'Press Enter to Start';
   enterButton.textSize = 12;
@@ -59,10 +59,10 @@ function titleScreen() {
 /* FUNCTIONS */
 function introScreen(){
   textFont(textFont1);
-  textSize(15);
+  textSize(20);
   fill(255, 255, 255);
   textAlign(CENTER, CENTER);
   text('This is the Intro Screen',
       width/2,
-      height * 0.25);
+      height * 0.075);
 }

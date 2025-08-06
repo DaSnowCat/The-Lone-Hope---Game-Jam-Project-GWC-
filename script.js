@@ -19,12 +19,12 @@ function preload(){
 
 /* SETUP RUNS ONCE */
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(400, 400);
   
   // Set up the title screen
   background(backgroundImage);
   
-  // Create all buttons (positioned off-screen initially except enter button)
+  //Buttons positioned offscreen except enterButton
   enterButton = new Sprite(width/2, height/2 + 150);
   a1Button = new Sprite(-200, -200);
   a2Button = new Sprite(-200, -200);
@@ -86,22 +86,27 @@ function draw() {
 }
 
 /* SCREEN FUNCTIONS */
+
+// Title Screen Function
 function titleScreen() {
-  // Set up title text
+  
+  //Text Properties
   textFont(introFont);
   textSize(50);
   fill(255, 255, 255);
   textAlign(CENTER, TOP);
   
-  // Draw title at top of screen
+  //Actual Text
   text("The Lone \nHope", width/2, height * 0.075);
 }
 
+// ScreenA1 Function
 function showScreenA1() {
+  
   // Hide enter button
   enterButton.pos = {x: -100, y: -100};
   
-  // Show A1 and A2 buttons
+  // Add A1 Button
   a1Button.pos = {x: width/2 - 75, y: height/2 + 100};
   a1Button.w = 100;
   a1Button.h = 40;
@@ -112,7 +117,8 @@ function showScreenA1() {
   a1Button.textColor = 'white';
   a1Button.text = 'Choice A1';
   a1Button.textSize = 12;
-  
+
+  //Add A2 Button
   a2Button.pos = {x: width/2 + 75, y: height/2 + 100};
   a2Button.w = 100;
   a2Button.h = 40;

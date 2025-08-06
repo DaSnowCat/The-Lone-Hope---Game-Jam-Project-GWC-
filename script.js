@@ -55,31 +55,41 @@ function draw() {
     // Check enter button
     if (enterButton.mouse.presses()) {
       print("Moving to screen 1");
-      showScreenA1();
+      setupScreenA1();
       screen = 1;
     }
   } else if (screen == 1) {
+    drawScreenA1();
+    
     // Screen A1 button logic
     if (a1Button.mouse.presses()) {
       print("Moving to screen 2");
-      showScreenA2();
+      setupScreenA2();
       screen = 2;
     } else if (a2Button.mouse.presses()) {
       print("Moving to screen 3");
-      showScreenB1();
+      setupScreenB1();
       screen = 3;
     }
   } else if (screen == 2) {
+    drawScreenA2();
+    
     // Screen A2 button logic
     if (b1Button.mouse.presses()) {
       print("Moving to screen 4");
-      showScreenB2();
+      setupScreenB2();
       screen = 4;
     } else if (b2Button.mouse.presses()) {
       print("Moving to screen 5");
-      showEndScreen();
+      setupEndScreen();
       screen = 5;
     }
+  } else if (screen == 3) {
+    drawScreenB1();
+  } else if (screen == 4) {
+    drawScreenB2();
+  } else if (screen == 5) {
+    drawEndScreen();
   }
   
   print(screen);
@@ -100,9 +110,8 @@ function titleScreen() {
   text("The Lone \nHope", width/2, height * 0.075);
 }
 
-// ScreenA1 Function
-function showScreenA1() {
-  
+// Setup ScreenA1 Function
+function setupScreenA1() {
   // Hide enter button
   enterButton.pos = {x: -100, y: -100};
   
@@ -129,7 +138,10 @@ function showScreenA1() {
   a2Button.textColor = 'white';
   a2Button.text = 'Choice A2';
   a2Button.textSize = 12;
-  
+}
+
+// Draw ScreenA1 Function
+function drawScreenA1() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
@@ -140,7 +152,7 @@ function showScreenA1() {
        height/2 - 50);
 }
 
-function showScreenA2() {
+function setupScreenA2() {
   // Hide previous buttons
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
@@ -167,7 +179,9 @@ function showScreenA2() {
   b2Button.textColor = 'white';
   b2Button.text = 'Choice B2';
   b2Button.textSize = 12;
-  
+}
+
+function drawScreenA2() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
@@ -178,13 +192,15 @@ function showScreenA2() {
        height/2 - 50);
 }
 
-function showScreenB1() {
+function setupScreenB1() {
   // Hide all buttons
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   b1Button.pos = {x: -200, y: -200};
   b2Button.pos = {x: -200, y: -200};
-  
+}
+
+function drawScreenB1() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
@@ -195,13 +211,15 @@ function showScreenB1() {
        height/2);
 }
 
-function showScreenB2() {
+function setupScreenB2() {
   // Hide all buttons
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   b1Button.pos = {x: -200, y: -200};
   b2Button.pos = {x: -200, y: -200};
-  
+}
+
+function drawScreenB2() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
@@ -212,13 +230,15 @@ function showScreenB2() {
        height/2);
 }
 
-function showEndScreen() {
+function setupEndScreen() {
   // Hide all buttons
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   b1Button.pos = {x: -200, y: -200};
   b2Button.pos = {x: -200, y: -200};
-  
+}
+
+function drawEndScreen() {
   // Display screen text
   textFont(textFont1);
   textSize(20);

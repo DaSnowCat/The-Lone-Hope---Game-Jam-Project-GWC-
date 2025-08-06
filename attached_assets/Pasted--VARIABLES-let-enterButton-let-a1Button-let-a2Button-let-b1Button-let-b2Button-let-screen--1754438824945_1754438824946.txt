@@ -1,0 +1,203 @@
+/* VARIABLES */
+let enterButton;
+let a1Button;
+let a2Button;
+let b1Button;
+let b2Button;
+let screen = 0;
+let bgColor = '#301934';
+let fontStyle;
+let image1;
+let image2;
+
+function preload() {
+  fontStyle = loadFont('assets/LuckiestGuy-Regular.ttf');
+  image1 = loadImage('assets/Meme 1.jpeg');
+  image2 = loadImage('assets/Image2 - Staring Hamster.jpg');
+}
+
+/* SETUP RUNS ONCE */
+function setup() {
+  createCanvas(600, 400);
+  textAlign(CENTER);
+  textSize(20);
+  noStroke();
+  textFont(fontStyle);
+
+  // Set up the home screen
+  background(bgColor);
+  fill('white')
+  text(
+    "Welcome to... \n\nWonderous Mysteries Memes \nIn the BACKROOMS \n\nPress 'Enter' to start!",
+    width / 2,
+    height / 2 - 100
+  );
+  
+
+  // Create buttons for all screens
+  enterButton = new Sprite(width/2,height/2 + 100);
+  a1Button = new Sprite(-200,-200);
+  a2Button = new Sprite(-50,-50);
+
+  //New buttons added
+  b1Button = new Sprite(-100,-100);
+  b2Button = new Sprite(-150,-150);
+}
+
+/* DRAW LOOP REPEATS */
+function draw() {
+  // Display enter button
+  enterButton.w = 100;
+  enterButton.h = 50;
+  enterButton.collider = 'k';
+  enterButton.color = 'GreenYellow';
+  enterButton.text = 'Enter';
+
+  
+
+  
+
+  // Check enter button
+  if (enterButton.mouse.presses()) {
+    print('pressed');
+    //Function called
+    showScreen1();
+
+    screen = 1;
+    }
+
+    if (screen == 1){
+
+  //When A1 button is pressed conditions
+      if (a1Button.mouse.presses()){
+        print('Display screen 2');
+        //Function called
+        showScreen2();
+        
+
+
+        
+        screen = 2;}
+        
+    //When A2 button is pressed conditions
+        else if  (a2Button.mouse.presses()){
+        print("Display screen 5");
+          //Function called
+          showScreen5();
+
+          
+        screen = 5;
+
+        //A1 and A2 buttons removed off screen
+        a1Button.pos = {x:-200,y:-200};
+        a2Button.pos = {x:-200,y:-200}
+        }
+      
+    
+    
+    } else if (screen ==2){
+      if(b1Button.mouse.presses()){
+        showScreen3();
+        screen = 3;
+      } else if (b2Button.mouse.presses()){
+        showScreen4();
+        screen = 4;
+      }
+  }
+  print(screen);
+  
+}
+
+/* FUNCTIONS TO DISPLAY SCREENS */
+function showScreen1(){
+
+  background('#291E29');
+  textSize(15);
+  text('You found youself in the backrooms. \nYou have no memory of how or why you got there \nbut you know that you have to escape! \nYou decided to walk through the long, dark purple hallway \nand you stumbled upon two doors that are identical. \nHowever, the first door is oddly silent \nwhile the second door whispers \n"Come here..." in an eerie, creepy voice. \nWhich one will you chose? ',
+      width/2 ,
+      height/2-150);
+  enterButton.pos = {x: -100, y:-100};
+  ;
+
+  // Add A1 button
+  a1Button.pos = {x: width/2 - 50, y: height/2 + 100}
+  a1Button.w = 50;
+  a1Button.h = 50;
+  a1Button.collider = 'k';
+  a1Button.color = 'GreenYellow';
+  a1Button.text = 'A1';
+
+  // Add A2 button
+  a2Button.pos = {x: width/2 + 50, y: height/2 + 100 };
+  a2Button.w = 50;
+  a2Button.h = 50;
+  a2Button.collider = 'k';
+  a2Button.color = 'GreenYellow';
+  a2Button.text = 'A2';
+  
+}
+
+function showScreen2(){
+
+  background('#682E3C');
+  text('Phew, you decided to use insticnts \nand dare not chose the second door before. \nNow you walk around in a tyrian color maze. \nYou feel worried wondering if you will able to escape \nbut you push forward and continue walking. \nThen you stumble upon two doors again. \nThe first door has an light purple color that gives you a feeling of ease \nbut it feels unsafe. \nWhile the second door is a black currant color that gives a feeling of eerieness \n but feels like the right path. \nWhich one will you choose?   ',
+  width/2,
+  height/2 -150);
+
+  //a1 and a2 buttons removed from screen
+  a1Button.pos = {x:-200, y:-200}
+  a2Button.pos = {x:-200, y:-200}
+
+  //B1 button added to screen
+  b1Button.pos = {x: width/2 - 50, y: height/2 + 100}
+  b1Button.w = 50;
+  b1Button.h = 50;
+  b1Button.collider = 'k';
+  b1Button.color = '#B6B5D8';
+  b1Button.text = 'B1';
+
+  //B2 button added to screen 
+  b2Button.pos = {x: width/2 + 50, y: height/2 + 100}
+  b2Button.w = 50;
+  b2Button.h = 50;
+  b2Button.collider = 'k';
+  b2Button.color = '#290916';
+  fill('red')
+  b2Button.text = 'B2';
+  
+}
+
+function showScreen3(){
+  background('#50404D');
+  text('Oh no! \nThat easy feeling that you were feeling was a trap to keep you here! \nYou see wall and now your forever trapped \nin the backrooms with the "Staring Hamster" \n:(',
+      width/2,
+      height/2-150)
+  //Move buttons off screen
+  b1Button.pos = {x:-100, y:-100};
+  b2Button.pos = {x:-100, y:-100};
+  image(image2, width/2, height/2 - 50, 200, 200);
+}
+
+function showScreen4(){
+  fill('black')
+  background('lightYellow');
+  text('Yay! \nYou managed to escape! \nYou are outside and now you are releived that you have escaped!',
+      width/2,
+      height/2 - 100);
+  //Move buttons off screen
+  b1Button.pos = {x:-100, y:-100};
+  b2Button.pos = {x:-100, y:-100};
+}
+
+function showScreen5(){
+
+  background('#FFD580');
+  fill('black')
+  text('Oh no! \nYou hit a deadend! \nNow you are forever stuck in the backroooms with rick rolls! \n😭😭😭',
+      width/2,
+      height/2-150);
+  image(image1, width/2, height/2 - 50, 200, 200);
+  
+}
+
+

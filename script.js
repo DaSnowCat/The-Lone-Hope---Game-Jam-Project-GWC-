@@ -254,6 +254,6 @@ function displayEndScreen() {
 }
 
 // The dark path mini game
-function miniGame1{
+function miniGame1() {
   
 }

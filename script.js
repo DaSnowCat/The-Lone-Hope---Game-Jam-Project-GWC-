@@ -3,12 +3,19 @@
 let backgroundImage;
 let introFont;
 let textFont1;
+
+//Button Variables
 let enterButton;
 let a1Button;
 let a2Button;
 let b1Button;
 let b2Button;
+
+//Count variable
 let screen = 0; // Start at screen 0 (title screen)
+
+//Minigame Variables
+
 
 /* PRELOAD LOADS FILES */
 function preload(){
@@ -50,11 +57,11 @@ function draw() {
   
   // Handle different screens based on screen variable
   if (screen == 0) {
-    displayTitleScreen();
+    titleScreen();
     
     // Check enter button
     if (enterButton.mouse.presses()) {
-      print("Moving to screen 1");
+      print("This is screen 1!");
       setupScreenA1();
       screen = 1;
     }
@@ -96,7 +103,7 @@ function draw() {
 /* SCREEN FUNCTIONS */
 
 // Title Screen Function
-function displayTitleScreen() {
+function titleScreen() {
   //Text Properties
   textFont(introFont);
   textSize(50);
@@ -143,8 +150,8 @@ function displayScreenA1() {
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  textAlign(CENTER, CENTER);
-  text('You find yourself in a mysterious forest.\nTwo paths lie ahead of you.\nWhich path will you choose?',
+  textAlign(center, center);
+  text('Soliday, Soliday! \nYou have been chosen... \nTake these!',
        width/2,
        height/2 - 50);
 }
@@ -182,8 +189,8 @@ function displayScreenA2() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
-  fill(255, 255, 255);
-  textAlign(CENTER, CENTER);
+  fill(255, 255,255);
+  textAlign(center, center);
   text('You chose the left path and found\na glowing crystal cave.\nWhat do you do next?',
        width/2,
        height/2 - 50);
@@ -202,7 +209,7 @@ function displayScreenB1() {
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  textAlign(CENTER, CENTER);
+  textAlign(center, center);
   text('You chose the right path and\nencountered a wise old sage.\nHe grants you a magical artifact!\n\nYou are victorious!',
        width/2,
        height/2);
@@ -221,7 +228,7 @@ function displayScreenB2() {
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  textAlign(CENTER, CENTER);
+  textAlign(center, center);
   text('You touch the crystal and it\nglows brightly, filling you with power.\n\nYou have gained magical abilities!',
        width/2,
        height/2);
@@ -240,8 +247,13 @@ function displayEndScreen() {
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  textAlign(CENTER, CENTER);
+  textAlign(center, center);
   text('You decided to leave the cave\nand continue your journey.\n\nThe adventure continues...',
        width/2,
        height/2);
+}
+
+// The dark path mini game
+function miniGame1{
+  
 }

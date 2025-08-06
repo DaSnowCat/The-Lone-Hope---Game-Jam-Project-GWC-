@@ -50,7 +50,7 @@ function draw() {
   
   // Handle different screens based on screen variable
   if (screen == 0) {
-    titleScreen();
+    displayTitleScreen();
     
     // Check enter button
     if (enterButton.mouse.presses()) {
@@ -59,7 +59,7 @@ function draw() {
       screen = 1;
     }
   } else if (screen == 1) {
-    drawScreenA1();
+    displayScreenA1();
     
     // Screen A1 button logic
     if (a1Button.mouse.presses()) {
@@ -72,7 +72,7 @@ function draw() {
       screen = 3;
     }
   } else if (screen == 2) {
-    drawScreenA2();
+    displayScreenA2();
     
     // Screen A2 button logic
     if (b1Button.mouse.presses()) {
@@ -85,21 +85,18 @@ function draw() {
       screen = 5;
     }
   } else if (screen == 3) {
-    drawScreenB1();
+    displayScreenB1();
   } else if (screen == 4) {
-    drawScreenB2();
+    displayScreenB2();
   } else if (screen == 5) {
-    drawEndScreen();
+    displayEndScreen();
   }
-  
-  print(screen);
 }
 
 /* SCREEN FUNCTIONS */
 
 // Title Screen Function
-function titleScreen() {
-  
+function displayTitleScreen() {
   //Text Properties
   textFont(introFont);
   textSize(50);
@@ -140,8 +137,8 @@ function setupScreenA1() {
   a2Button.textSize = 12;
 }
 
-// Draw ScreenA1 Function
-function drawScreenA1() {
+// Display ScreenA1 Function
+function displayScreenA1() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
@@ -181,7 +178,7 @@ function setupScreenA2() {
   b2Button.textSize = 12;
 }
 
-function drawScreenA2() {
+function displayScreenA2() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
@@ -200,7 +197,7 @@ function setupScreenB1() {
   b2Button.pos = {x: -200, y: -200};
 }
 
-function drawScreenB1() {
+function displayScreenB1() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
@@ -219,7 +216,7 @@ function setupScreenB2() {
   b2Button.pos = {x: -200, y: -200};
 }
 
-function drawScreenB2() {
+function displayScreenB2() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
@@ -238,7 +235,7 @@ function setupEndScreen() {
   b2Button.pos = {x: -200, y: -200};
 }
 
-function drawEndScreen() {
+function displayEndScreen() {
   // Display screen text
   textFont(textFont1);
   textSize(20);

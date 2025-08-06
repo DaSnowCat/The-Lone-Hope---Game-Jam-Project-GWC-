@@ -4,7 +4,7 @@ let introFont;
 let textFont1;
 let enterButton;
 let currentScreen = "title"; // Track which screen we're on
-let nextButton
+let nextButton;
 
 /* PRELOAD LOADS FILES */
 function preload(){
@@ -34,13 +34,23 @@ function draw() {
   // Display the background image to fill the entire canvas
   image(backgroundImage, 0, 0, width, height);
   
-  
-  
-  if (enterButton.mouse.presses()) {
+  // Handle different screens based on currentScreen variable
+  if (currentScreen === "title") {
+    titleScreen();
+    
+    if (enterButton.mouse.presses()) {
       print("Function works!");
-      screenA1();
+      currentScreen = "screenA1";
     }
- 
+  } else if (currentScreen === "screenA1") {
+    screenA1();
+  } else if (currentScreen === "screenA2") {
+    screenA2();
+  } else if (currentScreen === "screenB1") {
+    screenB1();
+  } else if (currentScreen === "screenB2") {
+    screenB2();
+  }
 }
 
 /* SCREEN FUNCTIONS */
@@ -68,6 +78,8 @@ function introScreen(){
 }
 
 function screenA1(){
+  enterButton.visible = false; // Hide the enter button on other screens
+  
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);

@@ -62,41 +62,36 @@ function draw() {
     // Check enter button
     if (enterButton.mouse.presses()) {
       print("This is screen 1!");
-      setupScreenA1();
       screen = 1;
     }
   } else if (screen == 1) {
-    displayScreenA1();
+    screenA1();
     
     // Screen A1 button logic
     if (a1Button.mouse.presses()) {
       print("Moving to screen 2");
-      setupScreenA2();
       screen = 2;
     } else if (a2Button.mouse.presses()) {
       print("Moving to screen 3");
-      setupScreenB1();
       screen = 3;
     }
   } else if (screen == 2) {
-    displayScreenA2();
+    screenA2();
     
     // Screen A2 button logic
     if (b1Button.mouse.presses()) {
       print("Moving to screen 4");
-      setupScreenB2();
       screen = 4;
     } else if (b2Button.mouse.presses()) {
       print("Moving to screen 5");
-      setupEndScreen();
       screen = 5;
     }
   } else if (screen == 3) {
-    displayScreenB1();
+    screenB1();
   } else if (screen == 4) {
-    displayScreenB2();
+    screenB2();
   } else if (screen == 5) {
-    displayEndScreen();
+    endScreen();
   }
 }
 
@@ -114,8 +109,8 @@ function titleScreen() {
   text("The Lone \nHope", width/2, height * 0.075);
 }
 
-// Setup ScreenA1 Function
-function setupScreenA1() {
+// Screen A1 Function
+function screenA1() {
   // Hide enter button
   enterButton.pos = {x: -100, y: -100};
   
@@ -142,21 +137,19 @@ function setupScreenA1() {
   a2Button.textColor = 'white';
   a2Button.text = 'Choice A2';
   a2Button.textSize = 12;
-}
 
-// Display ScreenA1 Function
-function displayScreenA1() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  textAlign(center, center);
+  textAlign(CENTER, CENTER);
   text('Soliday, Soliday! \nYou have been chosen... \nTake these!',
        width/2,
        height/2 - 50);
 }
 
-function setupScreenA2() {
+// Screen A2 Function
+function screenA2() {
   // Hide previous buttons
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
@@ -183,71 +176,66 @@ function setupScreenA2() {
   b2Button.textColor = 'white';
   b2Button.text = 'Choice B2';
   b2Button.textSize = 12;
-}
 
-function displayScreenA2() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
-  fill(255, 255,255);
-  textAlign(center, center);
+  fill(255, 255, 255);
+  textAlign(CENTER, CENTER);
   text('You chose the left path and found\na glowing crystal cave.\nWhat do you do next?',
        width/2,
        height/2 - 50);
 }
 
-function setupScreenB1() {
+// Screen B1 Function
+function screenB1() {
   // Hide all buttons
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   b1Button.pos = {x: -200, y: -200};
   b2Button.pos = {x: -200, y: -200};
-}
 
-function displayScreenB1() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  textAlign(center, center);
+  textAlign(CENTER, CENTER);
   text('You chose the right path and\nencountered a wise old sage.\nHe grants you a magical artifact!\n\nYou are victorious!',
        width/2,
        height/2);
 }
 
-function setupScreenB2() {
+// Screen B2 Function
+function screenB2() {
   // Hide all buttons
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   b1Button.pos = {x: -200, y: -200};
   b2Button.pos = {x: -200, y: -200};
-}
 
-function displayScreenB2() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  textAlign(center, center);
+  textAlign(CENTER, CENTER);
   text('You touch the crystal and it\nglows brightly, filling you with power.\n\nYou have gained magical abilities!',
        width/2,
        height/2);
 }
 
-function setupEndScreen() {
+// End Screen Function
+function endScreen() {
   // Hide all buttons
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   b1Button.pos = {x: -200, y: -200};
   b2Button.pos = {x: -200, y: -200};
-}
 
-function displayEndScreen() {
   // Display screen text
   textFont(textFont1);
   textSize(20);
   fill(255, 255, 255);
-  textAlign(center, center);
+  textAlign(CENTER, CENTER);
   text('You decided to leave the cave\nand continue your journey.\n\nThe adventure continues...',
        width/2,
        height/2);

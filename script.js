@@ -226,7 +226,7 @@ function darkPathA1() {
   nextButton.h = 40;
   nextButton.color = '#2E1065';
   nextButton.stroke = '#7A00E6';
-  nextButton.stokeWeight = 3;
+  nextButton.strokeWeight = 3;
   nextButton.textColor = 'white';
   nextButton.text = 'NEXT';
   nextButton.textSize = 12;

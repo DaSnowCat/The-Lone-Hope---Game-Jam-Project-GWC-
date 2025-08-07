@@ -1,6 +1,8 @@
 
 /* VARIABLES */
 let backgroundImage;
+let darkPathbackgroundImage;
+let lightPathbackgroundImage;
 let introFont;
 let textFont1;
 
@@ -11,7 +13,8 @@ let a2Button;
 let nextButton;
 let backButton;
 
-let startButton
+let startButton;
+let continueButton;
 
 //Count variable
 let screen = 0; // Start at screen 0 (title screen)
@@ -26,6 +29,8 @@ function preload(){
   backgroundImage = loadImage('assets/Purple Gradient Forest.png');
   introFont = loadFont('assets/Melted Monster.ttf');
   textFont1 = loadFont('assets/CaveatBrush-Regular.ttf');
+  darkPathbackgroundImage = loadImage('assets/Dark Path Background Image.png')
+  lightPathbackgroundImage = loadImage('assets/Light Path Forest Background Image.png')
 }
 
 
@@ -44,6 +49,7 @@ function setup() {
   startButton = new Sprite(-200, -200)
 
   nextButton = new Sprite(-200,-200);
+  continueButton = new Sprite(-200,-200);
   
   // EnterButton Properties
   enterButton.w = 150;
@@ -56,31 +62,7 @@ function setup() {
   enterButton.textSize = 12;
   enterButton.collider = 'k';
 
-  //Minigame Sprites
-   //Create the player 
-    // player = new Sprite(200, 20, 30);
-    // player.color = "black";
-
-    // //Create the avoiders
-    // avoider1 = new Sprite(10, 100, 120, 20, "k");
-    // avoider1.color = "green";
-    
-
-    // avoider2 = new Sprite(-100, 200, 80, 20, "k");
-    // avoider2.color = "blue";
-    
-
-    // avoider3 = new Sprite(-100, 300, 180, 20, "k");
-    // avoider3.color = "purple";
-    
-
-    // avoider4 = new Sprite(-150, 250, 100, 20, "k");
-    // avoider4.color = "orange";
-    
-
-    // avoider5 = new Sprite(-80, 350, 140, 20, "k");
-    // avoider5.color = "red";
-
+  
   //Create the player 
   player = new Sprite(200, 20, 30);
   player.color = "black";
@@ -88,23 +70,23 @@ function setup() {
   //Create the avoiders
   avoider1 = new Sprite(10, 100, 120, 20, "k");
   avoider1.color = "green";
-  avoider1.vel.x = 3; 
+  avoider1.vel.x = 1; 
 
   avoider2 = new Sprite(-100, 200, 80, 20, "k");
   avoider2.color = "blue";
-  avoider2.vel.x = 5; 
+  avoider2.vel.x = 1; 
 
   avoider3 = new Sprite(-100, 300, 180, 20, "k");
   avoider3.color = "purple";
-  avoider3.vel.x = 2; 
+  avoider3.vel.x = 1; 
 
   avoider4 = new Sprite(-150, 250, 100, 20, "k");
   avoider4.color = "orange";
-  avoider4.vel.x = 4; 
+  avoider4.vel.x = 1; 
 
   avoider5 = new Sprite(-80, 350, 140, 20, "k");
   avoider5.color = "red";
-  avoider5.vel.x = 12; 
+  avoider5.vel.x = 1; 
    
   }
   
@@ -138,7 +120,13 @@ function draw() {
     } else if (a2Button.mouse.presses()){
       screen = 'Light Path lB1'
     }
+    
   } 
+
+if (screen = 'Light Path lB1'){
+    lightPathA1();
+}
+ 
 
 else if (screen == 'Dark Path dB1'){
   darkPathA1();
@@ -202,6 +190,7 @@ function titleScreen() {
 
 // Dark Path or Light Path Choices 
 function screenChoiceDoL() {
+  background(backgroundImage);
   
   // Hide enter button
   enterButton.pos = {x: -100, y: -100};
@@ -250,6 +239,7 @@ function screenChoiceDoL() {
 
 // Screen A2 Function
 function darkPathA1() {
+  background(darkPathbackgroundImage)
   
   // A1 and A2 Hidden
   a1Button.pos = {x: -200, y: -200};
@@ -281,6 +271,9 @@ function darkPathA1() {
 
 // Light Path Function
 function lightPathA1(){
+  
+  background(lightPathbackgroundImage);
+  
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   
@@ -288,12 +281,16 @@ function lightPathA1(){
   textSize(20);
   fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text('Light Path Here',
+  text('Story to be continued',
       width/2,
       height/2 - 50);
 }
 
+
+
+
 function contDarkPath(){
+  background(darkPathbackgroundImage)
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   nextButton.pos = {x: -200, y: -200};
@@ -323,51 +320,16 @@ function contDarkPath(){
 
 function darkPathMinigame(){
   background(137, 213, 210);
-  startButton.pos = {x: -200, y: -200};
+  startButton.pos = {x: -200, y: -200}
+  
 
-  //Position the player 
-  player.pos = {x: 200, y: 20};
-  player.color = "black";
-
-  //Position the avoiders - only set initial positions once per game
-  if (avoider1.x > width || avoider1.x < -200) {
-    avoider1.pos = {x: 10, y: 100};
-  }
-  avoider1.color = "green";
-  avoider1.vel.x = 3; 
-
-  if (avoider2.x > width || avoider2.x < -200) {
-    avoider2.pos = {x: -100, y: 200};
-  }
-  avoider2.color = "blue";
-  avoider2.vel.x = 5; 
-
-  if (avoider3.x > width || avoider3.x < -200) {
-    avoider3.pos = {x: -100, y: 300};
-  }
-  avoider3.color = "purple";
-  avoider3.vel.x = 2; 
-
-  if (avoider4.x > width || avoider4.x < -200) {
-    avoider4.pos = {x: -150, y: 250};
-  }
-  avoider4.color = "orange";
-  avoider4.vel.x = 4; 
-
-  if (avoider5.x > width || avoider5.x < -200) {
-    avoider5.pos = {x: -80, y: 350};
-  }
-  avoider5.color = "red";
-  avoider5.vel.x = 12; 
-
-  //Player controls
   if (kb.pressing("left")) {
     player.vel.x = -3;
   } else if (kb.pressing("right")) {
     player.vel.x = 3;
-  } else if (kb.pressing("down")) {
+  } else if (kb.pressing("down")) { // step 2: moving the ball up and down
     player.vel.y = 3;
-  } else if (kb.pressing("up")) {
+  } else if (kb.pressing("up")) { // step 2: moving the ball up and down
     player.vel.y = -3;
   } else {
     player.vel.x = 0;
@@ -420,12 +382,14 @@ function darkPathMinigame(){
     player.x = 380;
   }
 
+
   //Check if player collides with avoiders
+  // step 3: check collisions 
   if (player.collides(avoider1) || player.collides(avoider2) || player.collides(avoider3) || player.collides(avoider4) || player.collides(avoider5)) {
-    player.x = 200;
-    player.y = 20;
+    player.x = 200; // step 3: Move the ball to the start
+    player.y = 20; // step 3: Move the ball to the start
   } 
-}
+  }
 
   function youWin() {
   //Draw avoiders off of screen
@@ -439,12 +403,23 @@ function darkPathMinigame(){
   avoider4.vel.x = 0;
   avoider5.x = -1000;
   avoider5.vel.x = 0;
+  
 
   //Display you win message
   fill(0, 128, 128);
   textAlign(CENTER);
-  textSize(20);
+  textSize(60);
   text('You win!', 200, 200);
+
+    continueButton.pos = {x: width/2, y:height/2 + 100}
+    continueButton.w = 100;
+    continueButton.h = 40;
+    continueButton.color = '#2E1065';
+    continueButton.stroke = '#7A00E6';
+    continueButton.stokeWeight = 3;
+    continueButton.textColor = 'white';
+    continueButton.text = 'CONTINUE';
+    continueButton.textSize = 12;
 }
 
 

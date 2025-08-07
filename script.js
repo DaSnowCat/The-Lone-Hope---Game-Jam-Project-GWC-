@@ -323,52 +323,51 @@ function contDarkPath(){
 
 function darkPathMinigame(){
   background(137, 213, 210);
-  startButton.pos = {x: -200, y: -200}
-  
+  startButton.pos = {x: -200, y: -200};
 
-
-
-  //Create the player 
-  player.pos = {x: 200, y:20}
+  //Position the player 
+  player.pos = {x: 200, y: 20};
   player.color = "black";
 
-  //Create the avoiders
-  avoider1.pos = {x: 10, y:100}
-  
-  avoider1.physics = 'KIN';
-  //avoider1 = new Sprite(10, 100, 120, 20, "k");
+  //Position the avoiders - only set initial positions once per game
+  if (avoider1.x > width || avoider1.x < -200) {
+    avoider1.pos = {x: 10, y: 100};
+  }
   avoider1.color = "green";
   avoider1.vel.x = 3; 
 
-  avoider2.pos = {x: -100, y:200}
-  avoider2.moveTo(100,200,2)
-  //avoider2 = new Sprite(-100, 200, 80, 20, "k");
+  if (avoider2.x > width || avoider2.x < -200) {
+    avoider2.pos = {x: -100, y: 200};
+  }
   avoider2.color = "blue";
   avoider2.vel.x = 5; 
 
-  avoider3.pos = {x: -100, y:300}
-  //avoider3 = new Sprite(-100, 300, 180, 20, "k");
+  if (avoider3.x > width || avoider3.x < -200) {
+    avoider3.pos = {x: -100, y: 300};
+  }
   avoider3.color = "purple";
   avoider3.vel.x = 2; 
 
-  avoider4.pos = {x: -150, y:200}
-  //avoider4 = new Sprite(-150, 250, 100, 20, "k");
+  if (avoider4.x > width || avoider4.x < -200) {
+    avoider4.pos = {x: -150, y: 250};
+  }
   avoider4.color = "orange";
   avoider4.vel.x = 4; 
 
-  avoider5.pos = {x: -80, y:350}
-  //avoider5 = new Sprite(-80, 350, 140, 20, "k");
+  if (avoider5.x > width || avoider5.x < -200) {
+    avoider5.pos = {x: -80, y: 350};
+  }
   avoider5.color = "red";
   avoider5.vel.x = 12; 
 
-
+  //Player controls
   if (kb.pressing("left")) {
     player.vel.x = -3;
   } else if (kb.pressing("right")) {
     player.vel.x = 3;
-  } else if (kb.pressing("down")) { // step 2: moving the ball up and down
+  } else if (kb.pressing("down")) {
     player.vel.y = 3;
-  } else if (kb.pressing("up")) { // step 2: moving the ball up and down
+  } else if (kb.pressing("up")) {
     player.vel.y = -3;
   } else {
     player.vel.x = 0;
@@ -421,14 +420,12 @@ function darkPathMinigame(){
     player.x = 380;
   }
 
-
   //Check if player collides with avoiders
-  // step 3: check collisions 
   if (player.collides(avoider1) || player.collides(avoider2) || player.collides(avoider3) || player.collides(avoider4) || player.collides(avoider5)) {
-    player.x = 200; // step 3: Move the ball to the start
-    player.y = 20; // step 3: Move the ball to the start
+    player.x = 200;
+    player.y = 20;
   } 
-  }
+}
 
   function youWin() {
   //Draw avoiders off of screen

@@ -324,31 +324,28 @@ function contDarkPath(){
 function darkPathMinigame(){
   background(137, 213, 210);
   
-
-
-
-  //Create the player 
-  player = new Sprite(200, 20, 30);
+  //Position the player and avoiders (don't recreate them)
+  player.pos = {x: 200, y: 20};
   player.color = "black";
 
-  //Create the avoiders
-  avoider1 = new Sprite(10, 100, 120, 20, "k");
+  //Position the avoiders and set their velocities
+  avoider1.pos = {x: 10, y: 100};
   avoider1.color = "green";
   avoider1.vel.x = 3; 
 
-  avoider2 = new Sprite(-100, 200, 80, 20, "k");
+  avoider2.pos = {x: -100, y: 200};
   avoider2.color = "blue";
   avoider2.vel.x = 5; 
 
-  avoider3 = new Sprite(-100, 300, 180, 20, "k");
+  avoider3.pos = {x: -100, y: 300};
   avoider3.color = "purple";
   avoider3.vel.x = 2; 
 
-  avoider4 = new Sprite(-150, 250, 100, 20, "k");
+  avoider4.pos = {x: -150, y: 250};
   avoider4.color = "orange";
   avoider4.vel.x = 4; 
 
-  avoider5 = new Sprite(-80, 350, 140, 20, "k");
+  avoider5.pos = {x: -80, y: 350};
   avoider5.color = "red";
   avoider5.vel.x = 12; 
 

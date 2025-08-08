@@ -489,11 +489,8 @@ function darkPathMinigame(){
 
     //Lose Condition
     if (scoreD < 0){
-      // Stop player movement
-      player.vel.x = 0;
-      player.vel.y = 0;
-      player.pos = { x: -200, y: -200 };
-      
+      player.x = -200;
+      player.y = -200;
       avoider1.x = -200;
       avoider1.vel.x = 0;
       avoider2.x = -500;
@@ -505,11 +502,13 @@ function darkPathMinigame(){
       avoider5.x = -1000;
       avoider5.vel.x = 0;
 
-      //Display you win message
+      //Display you lose message
       fill(0, 128, 128);
       textAlign(CENTER);
       textSize(60);
       text('You Lose!', 200, 200);
+
+      noLoop();
     }
     
   } 

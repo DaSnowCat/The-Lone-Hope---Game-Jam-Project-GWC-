@@ -8,6 +8,7 @@ let textFont1;
 let miniGamebackgroundImagel;
 let winBackgroundD;
 let winBackgroundL;
+let soundMusic;
 
 //Button Variables
 let enterButton;
@@ -53,7 +54,8 @@ function preload(){
   miniGamebackgroundImaged = loadImage('assets/Minigame Background dark purple.png');
   miniGamebackgroundImagel = loadImage('assets/Light Path Minigame Background.png');
   winBackgroundD = loadImage('assets/Win screen dark purple gradient.jpg');
-  winBackgroundL - loadImage('assets/Light path win screen gradient.jpg')
+  winBackgroundL = loadImage('assets/Light path win screen gradient.jpg')
+  soundMusic = loadSound('assets/Celtic Mystery Music _ Forest of Forgetfulness.mp3')
 }
 
 
@@ -684,7 +686,7 @@ function lightPathMinigame(){
 
 // Win screen
 function youWinL() {
-  
+  background(winBackgroundL);
   
   catcher.pos = { x: -200, y: -200 };
   fallingObject.pos = { x: -200, y: -200 };
@@ -692,14 +694,14 @@ function youWinL() {
 
   
 
-  fill(0, 200, 0);
+  fill('black');
   textSize(40);
   textAlign(CENTER, CENTER);
-  text('You Win!', width / 2, height / 2 - 20);
+  text('You have found hope!', width / 2, height / 2 - 150);
 
   textSize(20);
-  text('Click to Restart', width / 2, height / 2 + 30);
-  background(winBackgroundL);
+  text('Congrats on completeing!', width / 2, height / 2 + 30);
+  
 
   noLoop(); // Stop game after win
 }

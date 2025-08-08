@@ -473,18 +473,18 @@ function darkPathMinigame(){
   }
 
 
+  // Score display
+  textAlign(LEFT, BASELINE);
+  fill(0, 128, 128);
+  textSize(20);
+  text('Score = ' + scoreD, 10, 30);
+
   //Check if player collides with avoiders
   // step 3: check collisions 
   if (player.collides(avoider1) || player.collides(avoider2) || player.collides(avoider3) || player.collides(avoider4) || player.collides(avoider5)) {
     player.x = 200; // step 3: Move the ball to the start
     player.y = 20; // step 3: Move the ball to the start
     scoreD = scoreD - 1;
-
-    // Score display
-    textAlign(LEFT, BASELINE);
-    fill(0, 128, 128);
-    textSize(20);
-    text('Score = ' + scoreD, 10, 30);
   } 
   }
 

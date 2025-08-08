@@ -5,6 +5,9 @@ let lightPathbackgroundImage;
 let miniGamebackgroundImaged;
 let introFont;
 let textFont1;
+let miniGamebackgroundImagel;
+let winBackgroundD;
+let winBackgroundL;
 
 //Button Variables
 let enterButton;
@@ -47,7 +50,10 @@ function preload(){
   darkPathbackgroundImage = loadImage('assets/Dark Path Background Image.png');
   lightPathbackgroundImage = loadImage('assets/Light Path Forest Background Image.png');
 
-  miniGamebackgroundImaged = loadImage('assets/Minigame Background dark purple.png')
+  miniGamebackgroundImaged = loadImage('assets/Minigame Background dark purple.png');
+  miniGamebackgroundImagel = loadImage('assets/Light Path Minigame Background.png');
+  winBackgroundD = loadImage('assets/Win screen dark purple gradient.jpg');
+  winBackgroundL - loadImage('assets/Light path win screen gradient.jpg')
 }
 
 
@@ -63,8 +69,8 @@ function setup() {
   enterButton = new Sprite(width/2, height/2 + 130);
   a1Button = new Sprite(-200, -200);
   a2Button = new Sprite(-200, -200);
-  startButtonD = new Sprite(-200, -200)
-  startButtonL = new Sprite(-200, -200)
+  startButtonD = new Sprite(-200, -200);
+  startButtonL = new Sprite(-200, -200);
 
   nextButtonD1 = new Sprite(-200,-200);
   nextButtonL1 = new Sprite(-200,-200);
@@ -84,57 +90,61 @@ function setup() {
 
   //Create the player 
   player = new Sprite(200, 20, 30);
-  player.color = "black";
+  player.color = "#d6b7e1";
 
   //Create the avoiders
   avoider1 = new Sprite(50, 230, 145, 40, "k");
-  avoider1.color = "#2c0844";
+  avoider1.color = "#cc33ff";
   avoider1.text = 'Life is not a problem to be solved, \nbut a reality to be experienced'
   avoider1.textSize = 12;
-  avoider1.textColor = 'white';
+  avoider1.textColor = 'black';
   avoider1.vel.x = 3; 
 
   avoider2 = new Sprite(-100, 200, 80, 30, "k");
   avoider2.color = "#d2a5f3";
   avoider2.vel.x = 5; 
   avoider2.text = 'In darkness, \ntruth is hidden'
-  avoider2.textSize = 12;
+  avoider2.textSize = 13;
   
 
   avoider3 = new Sprite(-100, 300, 180, 20, "k");
-  avoider3.color = "#2c0844;
+  avoider3.color = "#cc33ff";
   avoider3.vel.x = 7; 
   avoider3.text = 'This too shall pass'
-  avoider3.textColor = 'white';
-  avoider3.textSize = 12;
+  avoider3.textColor = 'black';
+  avoider3.textSize = 13;
 
   avoider4 = new Sprite(-150, 250, 100, 20, "k");
   avoider4.color = "#d2a5f3";
   avoider4.vel.x = 4; 
   avoider4.text = 'Still waters run deep.'
-  avoider4.textSize = 12;
+  avoider4.textSize = 13;
 
   avoider5 = new Sprite(-80, 350, 140, 20, "k");
-  avoider5.color = "#2c0844;
+  avoider5.color = "#cc33ff";
   avoider5.vel.x = 2; 
   avoider5.text = 'Dream but never sleep.'
-  avoider5.textColor = 'white';
-  avoider5.textSize = 12;
+  avoider5.textColor = 'black';
+  avoider5.textSize = 13;
 
   //Light Path Minigame Sprites
 
   catcher = new Sprite(200, 380, 100, 20, 'k');
-  catcher.color = color(95, 158, 160);
+  catcher.color = '#e6ccff';
 
   // Create falling object (good)
-  fallingObject = new Sprite(100, 0, 10);
-  fallingObject.color = '#FFFFFF';
+  fallingObject = new Sprite(100, 0, 20);
+  fallingObject.color = '#cab4df';
+  fallingObject.stroke = '#cab4df';
+  fallingObject.strokeWeight = 3;
   fallingObject.vel.y = 2;
 
   // Create lose object (bad)
-  loseObject = new Sprite(100, 0, 10);
-  loseObject.color = '#000000';
+  loseObject = new Sprite(100, 0, 20);
+  loseObject.color = '#220240';
   loseObject.vel.y = 2;
+  loseObject.stroke = '#220240';
+  loseObject.strokeWeight = 3;
 
   }
 
@@ -431,13 +441,13 @@ function darkPathMinigame(){
 
 
   if (kb.pressing("left")) {
-    player.vel.x = -3;
+    player.vel.x = -2;
   } else if (kb.pressing("right")) {
-    player.vel.x = 3;
+    player.vel.x = 2;
   } else if (kb.pressing("down")) { // step 2: moving the ball up and down
-    player.vel.y = 3;
+    player.vel.y = 2;
   } else if (kb.pressing("up")) { // step 2: moving the ball up and down
-    player.vel.y = -3;
+    player.vel.y = -2;
   } else {
     player.vel.x = 0;
     player.vel.y = 0;
@@ -453,19 +463,19 @@ function darkPathMinigame(){
   if (avoider2.x > width) {
     avoider2.x = -50;
     avoider2.y = 150;
-    avoider2.vel.x = 5;
+    avoider2.vel.x = 2;
   } 
 
   if (avoider3.x > width) {
     avoider3.x = -100;
     avoider3.y = 300;
-    avoider3.vel.x = 7;
+    avoider3.vel.x = 1;
   } 
 
   if (avoider4.x > width) {
     avoider4.x = -150;
     avoider4.y = 250;
-    avoider4.vel.x = 4;
+    avoider4.vel.x = 2;
   } 
 
   if (avoider5.x > width) {
@@ -533,6 +543,7 @@ function darkPathMinigame(){
 
   function youWinD() {
   //Draw avoiders off of screen
+    background(winBackgroundD);
   avoider1.x = -200;
   avoider1.vel.x = 0;
   avoider2.x = -500;
@@ -543,33 +554,35 @@ function darkPathMinigame(){
   avoider4.vel.x = 0;
   avoider5.x = -1000;
   avoider5.vel.x = 0;
+  
 
 
   //Display you win message
-  fill(0, 128, 128);
+  fill('white');
   textAlign(CENTER);
-  textSize(60);
-  text('You win!', 200, 200);
+  textSize(20);
+  text('You have found hope. \n', 200, 200);
 
-    continueButton.pos = {x: width/2, y:height/2 + 100}
-    continueButton.w = 100;
-    continueButton.h = 40;
-    continueButton.color = '#2E1065';
-    continueButton.stroke = '#7A00E6';
-    continueButton.stokeWeight = 3;
-    continueButton.textColor = 'white';
-    continueButton.text = 'CONTINUE';
-    continueButton.textSize = 12;
+    // continueButton.pos = {x: width/2, y:height/2 + 100}
+    // continueButton.w = 100;
+    // continueButton.h = 40;
+    // continueButton.color = '#2E1065';
+    // continueButton.stroke = '#7A00E6';
+    // continueButton.stokeWeight = 3;
+    // continueButton.textColor = 'white';
+    // continueButton.text = 'CONTINUE';
+    // continueButton.textSize = 12;
 }
 
 
 //Light Path Minigame Fucntion
 
 function lightPathMinigame(){
+  
 
   nextButtonL1.pos = {x:-200,y:-200};
   startButtonL.pos = {x:-200,y:-200};
-  background(224, 224, 224);
+  background(miniGamebackgroundImagel);
 
   // Position the game sprites
   catcher.pos = {x: catcher.x, y: 380};
@@ -671,9 +684,13 @@ function lightPathMinigame(){
 
 // Win screen
 function youWinL() {
+  
+  
   catcher.pos = { x: -200, y: -200 };
   fallingObject.pos = { x: -200, y: -200 };
   loseObject.pos = { x: -200, y: -200 };
+
+  
 
   fill(0, 200, 0);
   textSize(40);
@@ -682,49 +699,50 @@ function youWinL() {
 
   textSize(20);
   text('Click to Restart', width / 2, height / 2 + 30);
+  background(winBackgroundL);
 
   noLoop(); // Stop game after win
 }
 
-// Listen for mouse click to restart after win/lose
-function mousePressed() {
-  // Restart functionality removed
-}
+// // Listen for mouse click to restart after win/lose
+// function mousePressed() {
+//   // Restart functionality removed
+// }
 
-function badEnding(){
-  background(darkPathbackgroundImage)
-  a1Button.pos = {x: -200, y: -200};
-  a2Button.pos = {x: -200, y: -200};
-  nextButtonD1.pos = {x: -200, y: -200};
+// function badEnding(){
+//   background(darkPathbackgroundImage)
+//   a1Button.pos = {x: -200, y: -200};
+//   a2Button.pos = {x: -200, y: -200};
+//   nextButtonD1.pos = {x: -200, y: -200};
 
-  textFont(textFont1);
-  textSize(20);
-  fill(255, 255, 255);
-  textAlign(CENTER, CENTER);
-  text('You have lost. ',
-       width/2,
-       height/2 - 50);
-
-
-}
-
-function goodEnding(){
-  background(lightPathbackgroundImage)
-  a1Button.pos = {x: -200, y: -200};
-  a2Button.pos = {x: -200, y: -200};
-  nextButtonD1.pos = {x: -200, y: -200};
-
-  textFont(textFont1);
-  textSize(20);
-  fill(255, 255, 255);
-  textAlign(CENTER, CENTER);
-  text('You have win',
-       width/2,
-       height/2 - 50);
+//   textFont(textFont1);
+//   textSize(20);
+//   fill(255, 255, 255);
+//   textAlign(CENTER, CENTER);
+//   text('You have lost. ',
+//        width/2,
+//        height/2 - 50);
 
 
-}
+// }
 
-function credits(){
+// function goodEnding(){
+//   background(lightPathbackgroundImage)
+//   a1Button.pos = {x: -200, y: -200};
+//   a2Button.pos = {x: -200, y: -200};
+//   nextButtonD1.pos = {x: -200, y: -200};
 
-}
+//   textFont(textFont1);
+//   textSize(20);
+//   fill(255, 255, 255);
+//   textAlign(CENTER, CENTER);
+//   text('You have win',
+//        width/2,
+//        height/2 - 50);
+
+
+// }
+
+// function credits(){
+
+// }

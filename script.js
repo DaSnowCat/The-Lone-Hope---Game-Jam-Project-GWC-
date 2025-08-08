@@ -2,6 +2,7 @@
 let backgroundImage;
 let darkPathbackgroundImage;
 let lightPathbackgroundImage;
+let miniGamebackgroundImaged;
 let introFont;
 let textFont1;
 
@@ -33,7 +34,7 @@ let scoreD = 5;
 let catcher;
 let fallingObject;
 let loseObject;
-let scoreL = 0;
+let scoreL = 1;
 
 
 
@@ -43,8 +44,10 @@ function preload(){
   backgroundImage = loadImage('assets/Purple Gradient Forest.png');
   introFont = loadFont('assets/Melted Monster.ttf');
   textFont1 = loadFont('assets/CaveatBrush-Regular.ttf');
-  darkPathbackgroundImage = loadImage('assets/Dark Path Background Image.png')
-  lightPathbackgroundImage = loadImage('assets/Light Path Forest Background Image.png')
+  darkPathbackgroundImage = loadImage('assets/Dark Path Background Image.png');
+  lightPathbackgroundImage = loadImage('assets/Light Path Forest Background Image.png');
+
+  miniGamebackgroundImaged = loadImage('assets/Minigame Background dark purple.png')
 }
 
 
@@ -84,25 +87,39 @@ function setup() {
   player.color = "black";
 
   //Create the avoiders
-  avoider1 = new Sprite(10, 100, 120, 20, "k");
-  avoider1.color = "green";
+  avoider1 = new Sprite(50, 230, 145, 40, "k");
+  avoider1.color = "#2c0844";
+  avoider1.text = 'Life is not a problem to be solved, \nbut a reality to be experienced'
+  avoider1.textSize = 12;
+  avoider1.textColor = 'white';
   avoider1.vel.x = 3; 
 
-  avoider2 = new Sprite(-100, 200, 80, 20, "k");
-  avoider2.color = "blue";
+  avoider2 = new Sprite(-100, 200, 80, 30, "k");
+  avoider2.color = "#d2a5f3";
   avoider2.vel.x = 5; 
+  avoider2.text = 'In darkness, \ntruth is hidden'
+  avoider2.textSize = 12;
+  
 
   avoider3 = new Sprite(-100, 300, 180, 20, "k");
-  avoider3.color = "purple";
+  avoider3.color = "#2c0844;
   avoider3.vel.x = 7; 
+  avoider3.text = 'This too shall pass'
+  avoider3.textColor = 'white';
+  avoider3.textSize = 12;
 
   avoider4 = new Sprite(-150, 250, 100, 20, "k");
-  avoider4.color = "orange";
+  avoider4.color = "#d2a5f3";
   avoider4.vel.x = 4; 
+  avoider4.text = 'Still waters run deep.'
+  avoider4.textSize = 12;
 
   avoider5 = new Sprite(-80, 350, 140, 20, "k");
-  avoider5.color = "red";
+  avoider5.color = "#2c0844;
   avoider5.vel.x = 2; 
+  avoider5.text = 'Dream but never sleep.'
+  avoider5.textColor = 'white';
+  avoider5.textSize = 12;
 
   //Light Path Minigame Sprites
 
@@ -406,9 +423,10 @@ function contDarkPath(){
 }
 
 
-
+//Minigame for Dark Path 
 function darkPathMinigame(){
-  background(137, 213, 210);
+  
+  background(miniGamebackgroundImaged);
   startButtonD.pos = {x: -200, y: -200}
 
 
@@ -428,13 +446,13 @@ function darkPathMinigame(){
   //Reset avoider locations once they reach edge of screen 
   if (avoider1.x > width) {
     avoider1.x = -50;
-    avoider1.y = 100;
+    avoider1.y = 80;
     avoider1.vel.x = 3;
   } 
 
   if (avoider2.x > width) {
     avoider2.x = -50;
-    avoider2.y = 200;
+    avoider2.y = 150;
     avoider2.vel.x = 5;
   } 
 

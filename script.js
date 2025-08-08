@@ -485,6 +485,28 @@ function darkPathMinigame(){
     player.x = 200; // step 3: Move the ball to the start
     player.y = 20; // step 3: Move the ball to the start
     scoreD = scoreD - 1;
+
+
+    //Lose Condition
+    if (scoreD < 0){
+      avoider1.x = -200;
+      avoider1.vel.x = 0;
+      avoider2.x = -500;
+      avoider2.vel.x = 0;
+      avoider3.x = -1000;
+      avoider3.vel.x = 0;
+      avoider4.x = -1000;
+      avoider4.vel.x = 0;
+      avoider5.x = -1000;
+      avoider5.vel.x = 0;
+
+      //Display you win message
+      fill(0, 128, 128);
+      textAlign(CENTER);
+      textSize(60);
+      text('You Lose!', 200, 200);
+    }
+    
   } 
   }
 

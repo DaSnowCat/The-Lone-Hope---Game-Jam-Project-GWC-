@@ -170,6 +170,7 @@ function draw() {
 
   if (enterButton.mouse.presses()){
     screen = 'Choice A Screen';
+    soundMusic.loop(); // Start playing background music
   }
 
   if (screen == 'Choice A Screen'){
@@ -223,10 +224,14 @@ else if ( screen == 'Minigame (Avoider Game) for Dark Path Started'){
     lightPathMinigame();
   }
 
-
-
-
-
+  // Music controls
+  if (keyWentDown('m')) {
+    if (soundMusic.isPlaying()) {
+      soundMusic.pause();
+    } else {
+      soundMusic.play();
+    }
+  }
 
 }
 
@@ -242,6 +247,11 @@ else if ( screen == 'Minigame (Avoider Game) for Dark Path Started'){
 
 // Title Screen Function
 function titleScreen() {
+  
+  // Play background music once
+  if (!soundMusic.isPlaying()) {
+    soundMusic.loop();
+  }
 
   //Hide minigame stuff
   avoider1.pos = {x: -100, y: -100};

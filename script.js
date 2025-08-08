@@ -28,12 +28,15 @@ let screen = 0; // Start at screen 0 (title screen)
 //Dark Path Minigame Variables
 let avoider1, avoider2, avoider3, avoider4, avoider5;
 let player;
+let scoreD = 5;
 
 //Light Path
 let catcher;
 let fallingObject;
 let loseObject;
-let score = 0;
+let scoreL = 0;
+
+
 
 
 /* PRELOAD LOADS FILES */
@@ -348,6 +351,7 @@ function lightPathA1(){
 }
 
 function contLightPath(){
+  background(lightPathbackgroundImage);
   
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
@@ -474,6 +478,13 @@ function darkPathMinigame(){
   if (player.collides(avoider1) || player.collides(avoider2) || player.collides(avoider3) || player.collides(avoider4) || player.collides(avoider5)) {
     player.x = 200; // step 3: Move the ball to the start
     player.y = 20; // step 3: Move the ball to the start
+    scoreD = scoreD - 1;
+
+    // Score display
+    textAlign(LEFT, BASELINE);
+    fill(0, 128, 128);
+    textSize(20);
+    text('Score = ' + scoreD, 10, 30);
   } 
   }
 
@@ -540,7 +551,7 @@ function lightPathMinigame(){
       fallingObject.y = 0;
       fallingObject.x = random(width);
       fallingObject.vel.y = random(1, 5);
-      score = score - 1;
+      scoreL = scoreL - 1;
     }
 
     // If loseObject reaches bottom, nothing happens
@@ -575,7 +586,7 @@ function lightPathMinigame(){
       fallingObject.x = random(width);
       fallingObject.vel.y = random(1, 5);
       fallingObject.direction = 'down';
-      score = score + 1;
+      scoreL = scoreL + 1;
     }
 
     // If loseObject collides with catcher, lose a point
@@ -584,11 +595,11 @@ function lightPathMinigame(){
       loseObject.x = random(width);
       loseObject.vel.y = random(1, 5);
       loseObject.direction = 'down';
-      score = score - 1;
+      scoreL = scoreL - 1;
     }
 
     // Lose condition
-    if (score < 0) {
+    if (scoreL < 0) {
       catcher.pos = { x: -200, y: -200 };
       fallingObject.pos = { x: -200, y: -200 };
       loseObject.pos = { x: -200, y: -200 };
@@ -657,6 +668,44 @@ function mousePressed() {
   if (!isLooping()) {
     restart();
   }
+}
+
+function badEnding(){
+  background(darkPathbackgroundImage)
+  a1Button.pos = {x: -200, y: -200};
+  a2Button.pos = {x: -200, y: -200};
+  nextButtonD1.pos = {x: -200, y: -200};
+
+  textFont(textFont1);
+  textSize(20);
+  fill(255, 255, 255);
+  textAlign(CENTER, CENTER);
+  text('You have lost. ',
+       width/2,
+       height/2 - 50);
+
+ 
+}
+
+function goodEnding(){
+  background(lightPathbackgroundImage)
+  a1Button.pos = {x: -200, y: -200};
+  a2Button.pos = {x: -200, y: -200};
+  nextButtonD1.pos = {x: -200, y: -200};
+
+  textFont(textFont1);
+  textSize(20);
+  fill(255, 255, 255);
+  textAlign(CENTER, CENTER);
+  text('You have win',
+       width/2,
+       height/2 - 50);
+
+ 
+}
+
+function credits(){
+  
 }
 
   

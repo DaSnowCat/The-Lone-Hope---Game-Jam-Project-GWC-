@@ -182,6 +182,13 @@ else if ( screen == 'Minigame (Avoider Game) for Dark Path Started'){
     screen = 'Light Path Continues 1';
   }
   else if (screen == 'Light Path Continues 1'){
+    contLightPath();
+  }
+
+  if (startButtonL.mouse.presses()){
+    screen = 'Light Path Minigame Started';
+  }
+  else if (screen == 'Light Path Minigame Started'){
     lightPathMinigame();
   }
 
@@ -507,7 +514,19 @@ function darkPathMinigame(){
 function lightPathMinigame(){
   
   nextButtonL1.pos = {x:-200,y:-200};
+  startButtonL.pos = {x:-200,y:-200};
   background(224, 224, 224);
+
+  // Position the game sprites
+  catcher.pos = {x: catcher.x, y: 380};
+  if (fallingObject.pos.x < 0) {
+    fallingObject.pos = {x: random(width), y: 0};
+    fallingObject.vel.y = 2;
+  }
+  if (loseObject.pos.x < 0) {
+    loseObject.pos = {x: random(width), y: 0};
+    loseObject.vel.y = 2;
+  }
 
 
   

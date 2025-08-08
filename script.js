@@ -489,6 +489,11 @@ function darkPathMinigame(){
 
     //Lose Condition
     if (scoreD < 0){
+      // Stop player movement
+      player.vel.x = 0;
+      player.vel.y = 0;
+      player.pos = { x: -200, y: -200 };
+      
       avoider1.x = -200;
       avoider1.vel.x = 0;
       avoider2.x = -500;

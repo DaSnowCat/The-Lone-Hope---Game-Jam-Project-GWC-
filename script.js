@@ -1,4 +1,3 @@
-
 /* VARIABLES */
 let backgroundImage;
 let darkPathbackgroundImage;
@@ -50,10 +49,10 @@ function preload(){
 /* SETUP RUNS ONCE */
 function setup() {
   createCanvas(400, 400);
-  
+
   // Set up the title screen
   background(backgroundImage);
-  
+
   //Buttons positioned offscreen except enterButton
   enterButton = new Sprite(width/2, height/2 + 130);
   a1Button = new Sprite(-200, -200);
@@ -64,7 +63,7 @@ function setup() {
   nextButtonD1 = new Sprite(-200,-200);
   nextButtonL1 = new Sprite(-200,-200);
   continueButton = new Sprite(-200,-200);
-  
+
   // EnterButton Properties
   enterButton.w = 150;
   enterButton.h = 40;
@@ -76,7 +75,7 @@ function setup() {
   enterButton.textSize = 12;
   enterButton.collider = 'k';
 
-  
+
   //Create the player 
   player = new Sprite(200, 20, 30);
   player.color = "black";
@@ -116,19 +115,19 @@ function setup() {
   loseObject = new Sprite(100, 0, 10);
   loseObject.color = '#000000';
   loseObject.vel.y = 2;
-   
-  }
-  
 
-  
- 
+  }
+
+
+
+
 
 
 
 
 /* DRAW LOOP REPEATS */
 function draw() {
-  
+
   // Background screen image
   image(backgroundImage, 0, 0, width, height);
 
@@ -136,7 +135,7 @@ function draw() {
   if (screen == 0) {
     titleScreen();
   }
-  
+
   if (enterButton.mouse.presses()){
     screen = 'Choice A Screen';
   }
@@ -149,13 +148,13 @@ function draw() {
     } else if (a2Button.mouse.presses()){
       screen = 'Light Path lB1'
     }
-    
+
   } 
 
 if (screen == 'Light Path lB1'){
     lightPathA1();
 }
- 
+
 
 else if (screen == 'Dark Path dB1'){
   darkPathA1();
@@ -164,7 +163,7 @@ else if (screen == 'Dark Path dB1'){
 if (nextButtonD1.mouse.presses()){
   screen = 'Dark Path Continues 1';
 }
-  
+
   else if (screen == 'Dark Path Continues 1'){
     contDarkPath();
   }
@@ -172,31 +171,31 @@ if (nextButtonD1.mouse.presses()){
 if (startButtonD.mouse.presses()){
   screen = 'Minigame (Avoider Game) for Dark Path Started';
 }
-  
+
 else if ( screen == 'Minigame (Avoider Game) for Dark Path Started'){
    darkPathMinigame()
-  
+
 }
 
   if (nextButtonL1.mouse.presses()){
     screen = 'Light Path Continues 1';
   }
   else if (screen == 'Light Path Continues 1'){
-    lightPathMinigame();
+    contLightPath();
   }
 
-  
 
 
-  
+
+
 
 }
 
-  
 
-  
-  
- 
+
+
+
+
 
 
 
@@ -215,22 +214,22 @@ function titleScreen() {
   catcher.pos = {x: -100, y: -100};
   fallingObject.pos = {x: -100, y: -100};
   loseObject.pos = {x: -100, y: -100};
-  
+
   //Text Properties
   textFont(introFont);
   textSize(50);
   fill(255, 255, 255);
   textAlign(CENTER, TOP);
-  
-  
+
+
   text("The Lone \nHope", width/2, height * 0.075);
-  
+
 }
 
 // Dark Path or Light Path Choices 
 function screenChoiceDoL() {
   background(backgroundImage);
-  
+
   // Hide enter button
   enterButton.pos = {x: -100, y: -100};
   avoider1.pos = {x: -100, y: -100};
@@ -252,7 +251,7 @@ function screenChoiceDoL() {
   text('Soliday, Soliday! \nYou have been chosen... \nTake these!',
        width/2,
        height/2 - 50);
-  
+
   // Add A1 Button
   a1Button.pos = {x: width/2 - 75, y: height/2 + 100};
   a1Button.w = 100;
@@ -277,13 +276,13 @@ function screenChoiceDoL() {
   a2Button.text = 'Choice A2';
   a2Button.textSize = 12;
 
-  
+
 }
 
 // Screen A2 Function
 function darkPathA1() {
   background(darkPathbackgroundImage)
-  
+
   // A1 and A2 Hidden
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
@@ -296,7 +295,7 @@ function darkPathA1() {
   text('This is for hope: without them, we quail \nThis is for wits: without them we fail \nThis is for fear: your fear makes you stornger \nThis is for anger at everything wrong \nThis is your name, simple and true \n\nAnd this is the secret held only by you... ',
        width/2,
        height/2 - 50);
-  
+
   //Next button properties
   nextButtonD1.pos = {x: width/2, y:height/2 + 100}
   nextButtonD1.w = 100;
@@ -307,16 +306,16 @@ function darkPathA1() {
   nextButtonD1.textColor = 'white';
   nextButtonD1.text = 'NEXT';
   nextButtonD1.textSize = 12;
-  
 
-  
+
+
 }
 
 // Light Path Function
 function lightPathA1(){
-  
+
   background(lightPathbackgroundImage);
-  
+
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
 
@@ -329,7 +328,7 @@ function lightPathA1(){
   nextButtonL1.textColor = 'black';
   nextButtonL1.text = 'NEXT';
   nextButtonL1.textSize = 12;
-  
+
   textFont(textFont1);
   textSize(20);
   fill('white');
@@ -340,7 +339,7 @@ function lightPathA1(){
 }
 
 function contLightPath(){
-  
+
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   nextButtonL1.pos = {x: -200, y: -200};
@@ -391,7 +390,7 @@ function contDarkPath(){
   startButtonD.text = 'START';
   startButtonD.textSize = 12;
 
-  
+
 }
 
 
@@ -399,7 +398,7 @@ function contDarkPath(){
 function darkPathMinigame(){
   background(137, 213, 210);
   startButtonD.pos = {x: -200, y: -200}
-  
+
 
   if (kb.pressing("left")) {
     player.vel.x = -3;
@@ -481,7 +480,7 @@ function darkPathMinigame(){
   avoider4.vel.x = 0;
   avoider5.x = -1000;
   avoider5.vel.x = 0;
-  
+
 
   //Display you win message
   fill(0, 128, 128);
@@ -635,11 +634,3 @@ function lightPathMinigame(){
       restart();
     }
   }
-
-
-
-
-
-
-
-

@@ -122,20 +122,20 @@ function handleScreens() {
 }
 
 function handleInput() {
-  if (enterButton && enterButton.mouse.presses()) {
+  if (enterButton && enterButton.mouse && enterButton.mouse.presses()) {
     screen = 'Choice A Screen';
     if (!soundMusic.isPlaying()) soundMusic.loop();
   }
 
   if (screen === 'Choice A Screen') {
-    if (a1Button && a1Button.mouse.presses()) screen = 'Dark Path dB1';
-    else if (a2Button && a2Button.mouse.presses()) screen = 'Light Path lB1';
+    if (a1Button && a1Button.mouse && a1Button.mouse.presses()) screen = 'Dark Path dB1';
+    else if (a2Button && a2Button.mouse && a2Button.mouse.presses()) screen = 'Light Path lB1';
   }
 
-  if (nextButtonD1 && nextButtonD1.mouse.presses()) screen = 'Dark Path Continues 1';
-  if (nextButtonL1 && nextButtonL1.mouse.presses()) screen = 'Light Path Continues 1';
-  if (startButtonD && startButtonD.mouse.presses()) screen = 'Minigame (Avoider Game) for Dark Path Started';
-  if (startButtonL && startButtonL.mouse.presses()) screen = 'Light Path Minigame Started';
+  if (nextButtonD1 && nextButtonD1.mouse && nextButtonD1.mouse.presses()) screen = 'Dark Path Continues 1';
+  if (nextButtonL1 && nextButtonL1.mouse && nextButtonL1.mouse.presses()) screen = 'Light Path Continues 1';
+  if (startButtonD && startButtonD.mouse && startButtonD.mouse.presses()) screen = 'Minigame (Avoider Game) for Dark Path Started';
+  if (startButtonL && startButtonL.mouse && startButtonL.mouse.presses()) screen = 'Light Path Minigame Started';
 }
 
 function hideAllSprites() {

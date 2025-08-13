@@ -170,11 +170,14 @@ function draw() {
 
   if (enterButton.mouse.presses()){
     screen = 'Choice A Screen';
-    soundMusic.loop(); // Start playing background music
   }
 
+  //Music playing
   if (screen == 'Choice A Screen'){
     screenChoiceDoL();
+    if (!soundMusic.isPlaying()) {
+      soundMusic.loop();
+    }
 
     if (a1Button.mouse.presses()){
       screen = 'Dark Path dB1'
@@ -224,14 +227,10 @@ else if ( screen == 'Minigame (Avoider Game) for Dark Path Started'){
     lightPathMinigame();
   }
 
-  // Music controls
-  if (keyWentDown('m')) {
-    if (soundMusic.isPlaying()) {
-      soundMusic.pause();
-    } else {
-      soundMusic.play();
-    }
-  }
+
+
+
+
 
 }
 
@@ -247,11 +246,6 @@ else if ( screen == 'Minigame (Avoider Game) for Dark Path Started'){
 
 // Title Screen Function
 function titleScreen() {
-  
-  // Play background music once
-  if (!soundMusic.isPlaying()) {
-    soundMusic.loop();
-  }
 
   //Hide minigame stuff
   avoider1.pos = {x: -100, y: -100};
@@ -298,9 +292,9 @@ function screenChoiceDoL() {
   textSize(20);
   fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text('Soliday, Soliday! \nYou have been chosen... \nTake these!',
+  text('You have found yourself in a strange forest. \nEverywhere you go, you see shades of purple. \nYou walk ahead and stumble upon two paths. \nOne is dark while the other is light. \nWhich will you choose? ',
        width/2,
-       height/2 - 50);
+       height/2 - 100);
 
   // Add A1 Button
   a1Button.pos = {x: width/2 - 75, y: height/2 + 100};
@@ -309,22 +303,22 @@ function screenChoiceDoL() {
   a1Button.collider = 'k';
   a1Button.color = '#2E1065';
   a1Button.stroke = '#7A00E6';
-  a1Button.strokeWeight = 3;
+  a1Button.strokeWeight = 5;
   a1Button.textColor = 'white';
-  a1Button.text = 'Choice A1';
-  a1Button.textSize = 12;
+  a1Button.text = 'Dark Path';
+  a1Button.textSize = 20;
 
   //Add A2 Button
   a2Button.pos = {x: width/2 + 75, y: height/2 + 100};
   a2Button.w = 100;
   a2Button.h = 40;
   a2Button.collider = 'k';
-  a2Button.color = '#2E1065';
-  a2Button.stroke = '#7A00E6';
-  a2Button.strokeWeight = 3;
+  a2Button.color = '#d9b3ff';
+  a2Button.stroke = '#26004d';
+  a2Button.strokeWeight = 5;
   a2Button.textColor = 'white';
-  a2Button.text = 'Choice A2';
-  a2Button.textSize = 12;
+  a2Button.text = 'Light Path';
+  a2Button.textSize = 20;
 
 
 }
@@ -339,12 +333,12 @@ function darkPathA1() {
 
   // Display screen text
   textFont(textFont1);
-  textSize(20);
+  textSize(15);
   fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text('This is for hope: without them, we quail \nThis is for wits: without them we fail \nThis is for fear: your fear makes you stornger \nThis is for anger at everything wrong \nThis is your name, simple and true \n\nAnd this is the secret held only by you... ',
+  text('"Soliday, soliday!", \nYou heard someone shounting in the distance. \n"This is for hope: without them, we quail \nThis is for wits: without them we fail \nThis is for fear: your fear makes you stornger \nThis is for anger at everything wrong \nThis is your name, simple and true \n\nAnd this is the secret held only by you... \nDefeat Mancrow with these by passing the traps!"" ',
        width/2,
-       height/2 - 50);
+       height/2 - 100);
 
   //Next button properties
   nextButtonD1.pos = {x: width/2, y:height/2 + 100}
@@ -352,7 +346,7 @@ function darkPathA1() {
   nextButtonD1.h = 40;
   nextButtonD1.color = '#2E1065';
   nextButtonD1.stroke = '#7A00E6';
-  nextButtonD1.stokeWeight = 3;
+  nextButtonD1.stokeWeight = 5;
   nextButtonD1.textColor = 'white';
   nextButtonD1.text = 'NEXT';
   nextButtonD1.textSize = 12;
@@ -374,16 +368,16 @@ function lightPathA1(){
   nextButtonL1.h = 40;
   nextButtonL1.color = '#d9b3ff';
   nextButtonL1.stroke = '#26004d';
-  nextButtonL1.stokeWeight = 3;
-  nextButtonL1.textColor = 'black';
+  nextButtonL1.stokeWeight = 5;
+  nextButtonL1.textColor = 'white';
   nextButtonL1.text = 'NEXT';
-  nextButtonL1.textSize = 12;
+  nextButtonL1.textSize = 20;
 
   textFont(textFont1);
   textSize(20);
   fill('white');
   textAlign(CENTER, CENTER);
-  text('Story to be continued',
+  text('\nThe atmosphere has changed to a light purple hue. \nYou feel calm and at peace. \nYet, you have feel the need to escape here. ',
       width/2,
       height/2 - 50);
 }
@@ -399,19 +393,19 @@ function contLightPath(){
   textSize(20);
   fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text('Defeat Mancrow! \nClick button below to start mini game',
+  text('To escape, you must collect 10 light orbs. \nDo not collect the dark orbs. \nIf your goes goes less than zero, you lose. \n\nClick the button below to start.',
        width/2,
        height/2 - 50);
 
   startButtonL.pos = {x: width/2, y:height/2 + 100}
   startButtonL.w = 100;
   startButtonL.h = 40;
-  startButtonL.color = '#2E1065';
+  startButtonL.color = '#d9b3ff';
   startButtonL.stroke = '#7A00E6';
-  startButtonL.stokeWeight = 3;
+  startButtonL.stokeWeight = 5;
   startButtonL.textColor = 'white';
   startButtonL.text = 'START';
-  startButtonL.textSize = 12;
+  startButtonL.textSize = 20;
 }
 
 
@@ -427,7 +421,7 @@ function contDarkPath(){
   textSize(20);
   fill(255, 255, 255);
   textAlign(CENTER, CENTER);
-  text('Defeat Mancrow! \nClick button below to start mini game',
+  text('To escape, you must avoid the moving tiles \nand make it to the bottom of the screen. \nClick button below to start mini game',
        width/2,
        height/2 - 50);
 
@@ -514,7 +508,7 @@ function darkPathMinigame(){
 
   // Score display
   textAlign(LEFT, BASELINE);
-  fill(0, 128, 128);
+  fill('white');
   textSize(20);
   text('Score = ' + scoreD, 10, 30);
 
@@ -542,10 +536,13 @@ function darkPathMinigame(){
       avoider5.vel.x = 0;
 
       //Display you lose message
-      fill(0, 128, 128);
-      textAlign(CENTER);
-      textSize(60);
-      text('You Lose!', 200, 200);
+      fill('white');
+      textSize(40);
+      textAlign(CENTER, CENTER);
+      text('Bad Ending!', width / 2, height / 2 - 150);
+
+      textSize(20);
+      text('Your score ran out. \nMancrow laughs at you and says, \n"Your hope means nothing to me... \nYour wits are far too wee! \nYour fear is justified. \nYour anger is empty pride. \nYour name will be snuffed out..." \nNow your trapped in the forest forever.', width / 2, height / 2 + 30);
 
       noLoop();
     }
@@ -570,10 +567,15 @@ function darkPathMinigame(){
 
 
   //Display you win message
-  fill('white');
-  textAlign(CENTER);
-  textSize(20);
-  text('You have found hope. \n', 200, 200);
+
+    fill('white');
+    textSize(40);
+    textAlign(CENTER, CENTER);
+    text('You defeated Mancrow!', width / 2, height / 2 - 150);
+
+    textSize(20);
+    text('Good Ending. \nYou passed the traps. \nMancrow screams and says: "What is this? Your faith? \nYour doubt? \nI usually get this right. \nNOOOOOO! " \nWoosh, Mancrow vanishes in thine air. \nYou have escaped!', width / 2, height / 2 + 30);
+ 
 
     // continueButton.pos = {x: width/2, y:height/2 + 100}
     // continueButton.w = 100;
@@ -610,9 +612,9 @@ function lightPathMinigame(){
 
 
     // Directions
-    fill(0);
-    textSize(12);
-    text("Move the \ncatcher with the \nleft and right \narrow keys to \ncatch the falling \nobjects.", width - 100, 20);
+    // fill(0);
+    // textSize(12);
+    // text("Move the \ncatcher with the \nleft and right \narrow keys to \ncatch the falling \nobjects.", width - 100, 20);
 
     // If fallingObject reaches bottom, lose a point
     if (fallingObject.y >= height) {
@@ -672,22 +674,25 @@ function lightPathMinigame(){
       fallingObject.pos = { x: -200, y: -200 };
       loseObject.pos = { x: -200, y: -200 };
 
-      fill(255, 0, 0);
+      fill('white');
       textSize(40);
       textAlign(CENTER, CENTER);
-      text('You Lose', width / 2, height / 2 + 100);
+      text('Bad Ending', width / 2, height / 2 - 150);
+
+      textSize(20);
+      text('You did not collect enough light orbs. \nNow you are forever trapped in the forest \nwith no hope left.', width / 2, height / 2 + 30);
 
       noLoop();
     }
 
     // Win condition
-    if (scoreL > 4) { // Winning score
+    if (scoreL > 9) { // Winning score
       youWinL();
     }
 
     // Score display
     textAlign(LEFT, BASELINE);
-    fill(0, 128, 128);
+    fill('white');
     textSize(20);
     text('Score = ' + scoreL, 10, 30);
   }
@@ -710,11 +715,24 @@ function youWinL() {
   text('You have found hope!', width / 2, height / 2 - 150);
 
   textSize(20);
-  text('Congrats on completeing!', width / 2, height / 2 + 30);
+  text('Good Ending. \nYou collected enough light orbs to escape! \nYou realized that the orbs represented you, \nyour good side and bad side. \n\nSuccess is not final,\n failure is not fatal:\n It is the courage to continue that counts.', width / 2, height / 2 + 30);
   
 
   noLoop(); // Stop game after win
 }
+
+function keyPressed() {
+  // Toggle music with M key
+  if (key === 'm' || key === 'spacebar') {
+    if (soundMusic.isPlaying()) {
+      soundMusic.pause();
+    } else {
+      soundMusic.loop();
+    }
+  }
+}
+
+
 
 // // Listen for mouse click to restart after win/lose
 // function mousePressed() {
@@ -758,3 +776,4 @@ function youWinL() {
 // function credits(){
 
 // }
+

@@ -441,6 +441,7 @@ function youWinD() {
   text('Good Ending. \nYou passed the traps. \nMancrow screams and says: "What is this? Your faith? \nYour doubt? \nI usually get this right. \nNOOOOOO!" \nWoosh, Mancrow vanishes in thine air. \nYou have escaped!', width / 2, height / 2 + 30*SF);
 
   showRestart('Play Again');
+  noLoop();
 }
 
 // Light Path Minigame Function

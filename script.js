@@ -107,7 +107,7 @@ function setup() {
   avoider2.vel.x = 5; 
   avoider2.text = 'In darkness, \ntruth is hidden'
   avoider2.textSize = 13;
-
+  
 
   avoider3 = new Sprite(-100, 300, 180, 20, "k");
   avoider3.color = "#cc33ff";
@@ -441,7 +441,7 @@ function contDarkPath(){
 
 //Minigame for Dark Path 
 function darkPathMinigame(){
-
+  
   background(miniGamebackgroundImaged);
   startButtonD.pos = {x: -200, y: -200}
 
@@ -563,7 +563,7 @@ function darkPathMinigame(){
   avoider4.vel.x = 0;
   avoider5.x = -1000;
   avoider5.vel.x = 0;
-
+  
 
 
   //Display you win message
@@ -575,7 +575,7 @@ function darkPathMinigame(){
 
     textSize(20);
     text('Good Ending. \nYou passed the traps. \nMancrow screams and says: "What is this? Your faith? \nYour doubt? \nI usually get this right. \nNOOOOOO! " \nWoosh, Mancrow vanishes in thine air. \nYou have escaped!', width / 2, height / 2 + 30);
-
+ 
 
     // continueButton.pos = {x: width/2, y:height/2 + 100}
     // continueButton.w = 100;
@@ -592,7 +592,7 @@ function darkPathMinigame(){
 //Light Path Minigame Fucntion
 
 function lightPathMinigame(){
-
+  
 
   nextButtonL1.pos = {x:-200,y:-200};
   startButtonL.pos = {x:-200,y:-200};
@@ -702,12 +702,12 @@ function lightPathMinigame(){
 // Win screen
 function youWinL() {
   background(winBackgroundL);
-
+  
   catcher.pos = { x: -200, y: -200 };
   fallingObject.pos = { x: -200, y: -200 };
   loseObject.pos = { x: -200, y: -200 };
 
-
+  
 
   fill('black');
   textSize(40);
@@ -716,67 +716,20 @@ function youWinL() {
 
   textSize(20);
   text('Good Ending. \nYou collected enough light orbs to escape! \nYou realized that the orbs represented you, \nyour good side and bad side. \n\nSuccess is not final,\n failure is not fatal:\n It is the courage to continue that counts.', width / 2, height / 2 + 30);
-
+  
 
   noLoop(); // Stop game after win
 }
 
 function keyPressed() {
   // Toggle music with M key
-  if (key === 'm' || key === ' ') {
+  if (key === 'm' || key === 'spacebar') {
     if (soundMusic.isPlaying()) {
       soundMusic.pause();
     } else {
       soundMusic.loop();
     }
   }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
-// Touch controls for mobile
-function touchStarted() {
-  // Check if touch is on any button
-  if (enterButton && enterButton.mouse && dist(mouseX, mouseY, enterButton.x, enterButton.y) < 75) {
-    screen = 'Choice A Screen';
-    if (!soundMusic.isPlaying()) soundMusic.loop();
-    return false; // Prevent default
-  }
-
-  if (screen === 'Choice A Screen') {
-    if (a1Button && a1Button.mouse && dist(mouseX, mouseY, a1Button.x, a1Button.y) < 50) {
-      screen = 'Dark Path dB1';
-      return false;
-    }
-    if (a2Button && a2Button.mouse && dist(mouseX, mouseY, a2Button.x, a2Button.y) < 50) {
-      screen = 'Light Path lB1';
-      return false;
-    }
-  }
-
-  if (nextButtonD1 && nextButtonD1.mouse && dist(mouseX, mouseY, nextButtonD1.x, nextButtonD1.y) < 50) {
-    screen = 'Dark Path Continues 1';
-    return false;
-  }
-
-  if (nextButtonL1 && nextButtonL1.mouse && dist(mouseX, mouseY, nextButtonL1.x, nextButtonL1.y) < 50) {
-    screen = 'Light Path Continues 1';
-    return false;
-  }
-
-  if (startButtonD && startButtonD.mouse && dist(mouseX, mouseY, startButtonD.x, startButtonD.y) < 50) {
-    screen = 'Minigame (Avoider Game) for Dark Path Started';
-    return false;
-  }
-
-  if (startButtonL && startButtonL.mouse && dist(mouseX, mouseY, startButtonL.x, startButtonL.y) < 50) {
-    screen = 'Light Path Minigame Started';
-    return false;
-  }
-
-  return false; // Prevent default touch behavior
 }
 
 
@@ -823,3 +776,4 @@ function touchStarted() {
 // function credits(){
 
 // }
+

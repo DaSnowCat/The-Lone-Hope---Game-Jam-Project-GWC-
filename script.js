@@ -919,11 +919,11 @@ function restartGame() {
   scoreD = 5;
   scoreL = 1;
   
-  // Reset player position
-  player.pos = {x: width/2, y: 20};
+  // Reset player position to off-screen initially (will be positioned correctly on title screen)
+  player.pos = {x: -100, y: -100};
   player.vel = {x: 0, y: 0};
   
-  // Reset avoiders to their initial positions
+  // Reset avoiders to their initial off-screen positions
   avoider1.pos = {x: 50, y: height * 0.575};
   avoider1.vel.x = 3;
   avoider2.pos = {x: -100, y: height * 0.5};
@@ -935,12 +935,12 @@ function restartGame() {
   avoider5.pos = {x: -80, y: height * 0.875};
   avoider5.vel.x = 2;
   
-  // Reset light path sprites
-  catcher.pos = {x: width/2, y: height - 20};
+  // Reset light path sprites to off-screen
+  catcher.pos = {x: -100, y: -100};
   catcher.vel = {x: 0, y: 0};
-  fallingObject.pos = {x: width * 0.25, y: 0};
+  fallingObject.pos = {x: -100, y: -100};
   fallingObject.vel = {x: 0, y: 2};
-  loseObject.pos = {x: width * 0.75, y: 0};
+  loseObject.pos = {x: -100, y: -100};
   loseObject.vel = {x: 0, y: 2};
   
   // Reset all buttons to off-screen positions except enter button
@@ -957,9 +957,11 @@ function restartGame() {
   // Hide mobile controls
   hideMobileControls();
   
-  // Resume the game loop and redraw
+  // Clear the background and set it to the title screen
+  background(backgroundImage);
+  
+  // Resume the game loop
   loop();
-  redraw();
 }
 
 // Make canvas responsive when window is resized

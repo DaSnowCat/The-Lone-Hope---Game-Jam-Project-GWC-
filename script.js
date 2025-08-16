@@ -533,12 +533,15 @@ function youWinL() {
   fill('black');
   textSize(max(24, 40*SF));
   textAlign(CENTER, CENTER);
-  text('You have found hope!', width / 2, height / 2 - 150*SF);
+  text('You have found hope!', width / 2, height / 2 - 180*SF);
 
-  textSize(max(12, 18*SF));
-  text('Good Ending. \nYou collected enough light orbs to escape! \nYou realized that the orbs represented you, \nyour good side and bad side. \n\nSuccess is not final,\n failure is not fatal:\n It is the courage to continue that counts.', width / 2, height / 2 + 30*SF);
+  textSize(max(12, 16*SF));
+  text('Good Ending. \nYou collected enough light orbs to escape! \nYou realized that the orbs represented you, \nyour good side and bad side. \n\nSuccess is not final,\n failure is not fatal:\n It is the courage to continue that counts.', width / 2, height / 2 - 50*SF);
 
-  showRestart('Play Again');
+  // Smaller restart button positioned lower
+  restartButton.pos = {x: width/2, y: height - 80*SF};
+  styleButton(restartButton, 140, 40, '#6d28d9', '#a78bfa', 'Play Again', 16);
+  
   noLoop();
 }
 

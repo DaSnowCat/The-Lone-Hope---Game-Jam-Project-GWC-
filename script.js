@@ -30,7 +30,7 @@ let restartButton; // used on endings
 // Count / Screen state
 let screen = 0; // Start at screen 0 (title screen)
 
-// Minigame Variables 
+// Minigame Variables
 // Dark Path
 let avoider1, avoider2, avoider3, avoider4, avoider5;
 let player;
@@ -238,7 +238,7 @@ function titleScreen() {
   text('The Lone \nHope', width/2, height * 0.075);
 }
 
-// Dark Path or Light Path Choices 
+// Dark Path or Light Path Choices
 function screenChoiceDoL() {
   image(backgroundImage, 0, 0, width, height);
 
@@ -284,7 +284,7 @@ function darkPathA1() {
   textSize(max(12, 16*SF));
   fill(255);
   textAlign(CENTER, CENTER);
-  text('\"Soliday, soliday!\", \nYou heard someone shounting in the distance. \n\"This is for hope: without them, we quail \nThis is for wits: without them we fail \nThis is for fear: your fear makes you stornger \nThis is for anger at everything wrong \nThis is your name, simple and true \n\nAnd this is the secret held only by you... \nDefeat Mancrow with these by passing the traps!\"\" ', width/2, height/2 - 120*SF);
+  text('\"Soliday, soliday!, \nYou heard someone shounting in the distance. \n\"This is for hope: without them, we quail \nThis is for wits: without them we fail \nThis is for fear: your fear makes you stornger \nThis is for anger at everything wrong \nThis is your name, simple and true \n\nAnd this is the secret held only by you... \nDefeat Mancrow with these by passing the traps!\"\" ', width/2, height/2 - 120*SF);
 
   // Next button
   nextButtonD1.pos = {x: width/2, y: height/2 + 120*SF};
@@ -344,17 +344,17 @@ function contDarkPath(){
 /* -------------------------
    MINIGAMES & ENDINGS
 ------------------------- */
-// Minigame for Dark Path 
+// Minigame for Dark Path
 function darkPathMinigame(){
   image(miniGamebackgroundImaged, 0, 0, width, height);
   startButtonD.pos = {x: -200, y: -200};
 
   // Keyboard controls
-  if (kb.pressing('left'))  { player.vel.x = -2*SF; } 
-  else if (kb.pressing('right')) { player.vel.x = 2*SF; } 
+  if (kb.pressing('left'))  { player.vel.x = -2*SF; }
+  else if (kb.pressing('right')) { player.vel.x = 2*SF; }
   else { player.vel.x = 0; }
-  if (kb.pressing('down'))  { player.vel.y = 2*SF; } 
-  else if (kb.pressing('up')) { player.vel.y = -2*SF; } 
+  if (kb.pressing('down'))  { player.vel.y = 2*SF; }
+  else if (kb.pressing('up')) { player.vel.y = -2*SF; }
   else { player.vel.y = 0; }
 
   // Touch controls (mobile): quadrants
@@ -366,7 +366,7 @@ function darkPathMinigame(){
     if (ty > height*0.6) player.vel.y =  2*SF;
   }
 
-  // Reset avoider locations once they reach edge of screen 
+  // Reset avoider locations once they reach edge of screen
   if (avoider1.x > width) { avoider1.x = -50*SF; avoider1.y = 80*SF;  avoider1.vel.x = 3; }
   if (avoider2.x > width) { avoider2.x = -50*SF; avoider2.y = 150*SF; avoider2.vel.x = 2; }
   if (avoider3.x > width) { avoider3.x = -100*SF; avoider3.y = 300*SF; avoider3.vel.x = 1; }
@@ -394,7 +394,7 @@ function darkPathMinigame(){
   // Collisions
   if (player.collides(avoider1) || player.collides(avoider2) || player.collides(avoider3) || player.collides(avoider4) || player.collides(avoider5)) {
     player.x = width/2; // reset to start
-    player.y = 20*SF; 
+    player.y = 20*SF;
     scoreD = scoreD - 1;
 
     //Lose Condition
@@ -539,6 +539,7 @@ function youWinL() {
   text('Good Ending. \nYou collected enough light orbs to escape! \nYou realized that the orbs represented you, \nyour good side and bad side. \n\nSuccess is not final,\n failure is not fatal:\n It is the courage to continue that counts.', width / 2, height / 2 + 30*SF);
 
   showRestart('Play Again');
+  noLoop();
 }
 
 // Soft translucent panel so restart button never covers text

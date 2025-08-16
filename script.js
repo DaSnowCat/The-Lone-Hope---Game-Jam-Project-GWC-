@@ -21,6 +21,7 @@ let startButtonD;
 let startButtonL;
 
 let continueButton;
+let restartButton;
 
 let nextButtonL1
 
@@ -89,6 +90,7 @@ function setup() {
   nextButtonD1 = new Sprite(-200,-200);
   nextButtonL1 = new Sprite(-200,-200);
   continueButton = new Sprite(-200,-200);
+  restartButton = new Sprite(-200,-200);
 
   // Mobile control buttons (initially hidden)
   leftButton = new Sprite(-200, -200);
@@ -250,10 +252,10 @@ else if ( screen == 'Minigame (Avoider Game) for Dark Path Started'){
     lightPathMinigame();
   }
 
-
-
-
-
+  // Handle restart button click
+  if (restartButton.mouse.presses()) {
+    restartGame();
+  }
 
 }
 
@@ -583,6 +585,18 @@ function darkPathMinigame(){
       textSize(20);
       text('Your score ran out. \nMancrow laughs at you and says, \n"Your hope means nothing to me... \nYour wits are far too wee! \nYour fear is justified. \nYour anger is empty pride. \nYour name will be snuffed out..." \nNow your trapped in the forest forever.', width / 2, height / 2 + 30);
 
+      // Add restart button
+      restartButton.pos = {x: width/2, y: height/2 + 150};
+      restartButton.w = isMobile ? 120 : 100;
+      restartButton.h = isMobile ? 50 : 40;
+      restartButton.color = '#2E1065';
+      restartButton.stroke = '#7A00E6';
+      restartButton.strokeWeight = 3;
+      restartButton.textColor = 'white';
+      restartButton.text = 'RESTART';
+      restartButton.textSize = isMobile ? 16 : 12;
+      restartButton.collider = 'k';
+
       noLoop();
     }
 
@@ -618,6 +632,17 @@ function darkPathMinigame(){
     textSize(20);
     text('Good Ending. \nYou passed the traps. \nMancrow screams and says: "What is this? Your faith? \nYour doubt? \nI usually get this right. \nNOOOOOO! " \nWoosh, Mancrow vanishes in thine air. \nYou have escaped!', width / 2, height / 2 + 30);
  
+    // Add restart button
+    restartButton.pos = {x: width/2, y: height/2 + 150};
+    restartButton.w = isMobile ? 120 : 100;
+    restartButton.h = isMobile ? 50 : 40;
+    restartButton.color = '#2E1065';
+    restartButton.stroke = '#7A00E6';
+    restartButton.strokeWeight = 3;
+    restartButton.textColor = 'white';
+    restartButton.text = 'RESTART';
+    restartButton.textSize = isMobile ? 16 : 12;
+    restartButton.collider = 'k';
 
     // continueButton.pos = {x: width/2, y:height/2 + 100}
     // continueButton.w = 100;
@@ -734,6 +759,18 @@ function lightPathMinigame(){
       textSize(20);
       text('You did not collect enough light orbs. \nNow you are forever trapped in the forest \nwith no hope left.', width / 2, height / 2 + 30);
 
+      // Add restart button
+      restartButton.pos = {x: width/2, y: height/2 + 150};
+      restartButton.w = isMobile ? 120 : 100;
+      restartButton.h = isMobile ? 50 : 40;
+      restartButton.color = '#d9b3ff';
+      restartButton.stroke = '#26004d';
+      restartButton.strokeWeight = 3;
+      restartButton.textColor = 'white';
+      restartButton.text = 'RESTART';
+      restartButton.textSize = isMobile ? 16 : 12;
+      restartButton.collider = 'k';
+
       noLoop();
     }
 
@@ -772,6 +809,17 @@ function youWinL() {
   textSize(20);
   text('Good Ending. \nYou collected enough light orbs to escape! \nYou realized that the orbs represented you, \nyour good side and bad side. \n\nSuccess is not final,\n failure is not fatal:\n It is the courage to continue that counts.', width / 2, height / 2 + 30);
   
+  // Add restart button
+  restartButton.pos = {x: width/2, y: height/2 + 150};
+  restartButton.w = isMobile ? 120 : 100;
+  restartButton.h = isMobile ? 50 : 40;
+  restartButton.color = '#d9b3ff';
+  restartButton.stroke = '#26004d';
+  restartButton.strokeWeight = 3;
+  restartButton.textColor = 'white';
+  restartButton.text = 'RESTART';
+  restartButton.textSize = isMobile ? 16 : 12;
+  restartButton.collider = 'k';
 
   noLoop(); // Stop game after win
 }
@@ -866,6 +914,55 @@ function hideMobileControls() {
 }
 
 
+
+// Restart game function
+function restartGame() {
+  // Reset all variables to initial state
+  screen = 0;
+  scoreD = 5;
+  scoreL = 1;
+  
+  // Reset player position
+  player.pos = {x: -100, y: -100};
+  player.vel = {x: 0, y: 0};
+  
+  // Reset avoiders
+  avoider1.pos = {x: 50, y: height * 0.575};
+  avoider1.vel.x = 3;
+  avoider2.pos = {x: -100, y: height * 0.5};
+  avoider2.vel.x = 5;
+  avoider3.pos = {x: -100, y: height * 0.75};
+  avoider3.vel.x = 7;
+  avoider4.pos = {x: -150, y: height * 0.625};
+  avoider4.vel.x = 4;
+  avoider5.pos = {x: -80, y: height * 0.875};
+  avoider5.vel.x = 2;
+  
+  // Reset light path sprites
+  catcher.pos = {x: width/2, y: height - 20};
+  catcher.vel = {x: 0, y: 0};
+  fallingObject.pos = {x: width * 0.25, y: 0};
+  fallingObject.vel = {x: 0, y: 2};
+  loseObject.pos = {x: width * 0.75, y: 0};
+  loseObject.vel = {x: 0, y: 2};
+  
+  // Reset all buttons to off-screen positions
+  enterButton.pos = {x: width/2, y: height/2 + 130};
+  a1Button.pos = {x: -200, y: -200};
+  a2Button.pos = {x: -200, y: -200};
+  startButtonD.pos = {x: -200, y: -200};
+  startButtonL.pos = {x: -200, y: -200};
+  nextButtonD1.pos = {x: -200, y: -200};
+  nextButtonL1.pos = {x: -200, y: -200};
+  continueButton.pos = {x: -200, y: -200};
+  restartButton.pos = {x: -200, y: -200};
+  
+  // Hide mobile controls
+  hideMobileControls();
+  
+  // Resume the game loop
+  loop();
+}
 
 // Make canvas responsive when window is resized
 function windowResized() {

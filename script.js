@@ -435,10 +435,10 @@ function youWinD() {
   fill('white');
   textSize(max(24, 40*SF));
   textAlign(CENTER, CENTER);
-  text('You defeated Mancrow!', width / 2, height / 2 - 150*SF);
+  text('You defeated Mancrow!', width / 2, height / 2 - 180*SF);
 
-  textSize(max(12, 18*SF));
-  text('Good Ending. \nYou passed the traps. \nMancrow screams and says: "What is this? Your faith? \nYour doubt? \nI usually get this right. \nNOOOOOO!" \nWoosh, Mancrow vanishes in thine air. \nYou have escaped!', width / 2, height / 2 + 30*SF);
+  textSize(max(12, 16*SF));
+  text('Good Ending. \nYou passed the traps. \nMancrow screams and says: "What is this? Your faith? \nYour doubt? \nI usually get this right. \nNOOOOOO!" \nWoosh, Mancrow vanishes in thine air. \nYou have escaped!', width / 2, height / 2 - 50*SF);
 
   showRestart('Play Again');
   noLoop();

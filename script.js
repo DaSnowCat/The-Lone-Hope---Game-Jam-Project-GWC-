@@ -644,15 +644,7 @@ function darkPathMinigame(){
     restartButton.textSize = isMobile ? 16 : 12;
     restartButton.collider = 'k';
 
-    // continueButton.pos = {x: width/2, y:height/2 + 100}
-    // continueButton.w = 100;
-    // continueButton.h = 40;
-    // continueButton.color = '#2E1065';
-    // continueButton.stroke = '#7A00E6';
-    // continueButton.stokeWeight = 3;
-    // continueButton.textColor = 'white';
-    // continueButton.text = 'CONTINUE';
-    // continueButton.textSize = 12;
+    noLoop();
 }
 
 
@@ -965,8 +957,9 @@ function restartGame() {
   // Hide mobile controls
   hideMobileControls();
   
-  // Resume the game loop
+  // Resume the game loop and redraw
   loop();
+  redraw();
 }
 
 // Make canvas responsive when window is resized

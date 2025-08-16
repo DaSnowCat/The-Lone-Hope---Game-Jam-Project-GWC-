@@ -157,7 +157,7 @@ function draw() {
   }
 
   // Enter button or keyboard Enter to proceed
-  if (enterButton?.mouse?.presses() || keyIsDown(13)){
+  if (enterButton?.mouse?.presses() || kb.pressing('enter')){
     screen = 'Choice A Screen';
   }
 

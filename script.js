@@ -917,16 +917,21 @@ function hideMobileControls() {
 
 // Restart game function
 function restartGame() {
+  // Stop music
+  if (soundMusic.isPlaying()) {
+    soundMusic.stop();
+  }
+  
   // Reset all variables to initial state
   screen = 0;
   scoreD = 5;
   scoreL = 1;
   
   // Reset player position
-  player.pos = {x: -100, y: -100};
+  player.pos = {x: width/2, y: 20};
   player.vel = {x: 0, y: 0};
   
-  // Reset avoiders
+  // Reset avoiders to their initial positions
   avoider1.pos = {x: 50, y: height * 0.575};
   avoider1.vel.x = 3;
   avoider2.pos = {x: -100, y: height * 0.5};
@@ -946,7 +951,7 @@ function restartGame() {
   loseObject.pos = {x: width * 0.75, y: 0};
   loseObject.vel = {x: 0, y: 2};
   
-  // Reset all buttons to off-screen positions
+  // Reset all buttons to off-screen positions except enter button
   enterButton.pos = {x: width/2, y: height/2 + 130};
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};

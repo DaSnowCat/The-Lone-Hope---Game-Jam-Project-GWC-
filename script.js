@@ -66,7 +66,12 @@ function preload(){
 
 /* SETUP RUNS ONCE */
 function setup() {
-  createCanvas(400, 400);
+  // Make canvas responsive to screen size
+  if (isMobile) {
+    createCanvas(windowWidth, windowHeight);
+  } else {
+    createCanvas(windowWidth, windowHeight);
+  }
   
   // Detect if mobile device
   isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -104,38 +109,38 @@ function setup() {
 
 
   //Create the player 
-  player = new Sprite(200, 20, 30);
+  player = new Sprite(width/2, 20, 30);
   player.color = "#d6b7e1";
 
   //Create the avoiders
-  avoider1 = new Sprite(50, 230, 145, 40, "k");
+  avoider1 = new Sprite(50, height * 0.575, 145, 40, "k");
   avoider1.color = "#cc33ff";
   avoider1.text = 'Life is not a problem to be solved, \nbut a reality to be experienced'
   avoider1.textSize = 12;
   avoider1.textColor = 'black';
   avoider1.vel.x = 3; 
 
-  avoider2 = new Sprite(-100, 200, 80, 30, "k");
+  avoider2 = new Sprite(-100, height * 0.5, 80, 30, "k");
   avoider2.color = "#d2a5f3";
   avoider2.vel.x = 5; 
   avoider2.text = 'In darkness, \ntruth is hidden'
   avoider2.textSize = 13;
   
 
-  avoider3 = new Sprite(-100, 300, 180, 20, "k");
+  avoider3 = new Sprite(-100, height * 0.75, 180, 20, "k");
   avoider3.color = "#cc33ff";
   avoider3.vel.x = 7; 
   avoider3.text = 'This too shall pass'
   avoider3.textColor = 'black';
   avoider3.textSize = 13;
 
-  avoider4 = new Sprite(-150, 250, 100, 20, "k");
+  avoider4 = new Sprite(-150, height * 0.625, 100, 20, "k");
   avoider4.color = "#d2a5f3";
   avoider4.vel.x = 4; 
   avoider4.text = 'Still waters run deep.'
   avoider4.textSize = 13;
 
-  avoider5 = new Sprite(-80, 350, 140, 20, "k");
+  avoider5 = new Sprite(-80, height * 0.875, 140, 20, "k");
   avoider5.color = "#cc33ff";
   avoider5.vel.x = 2; 
   avoider5.text = 'Dream but never sleep.'
@@ -144,20 +149,22 @@ function setup() {
 
   //Light Path Minigame Sprites
 
-  catcher = new Sprite(200, 380, 100, 20, 'k');
+  catcher = new Sprite(width/2, height - 20, 100, 20, 'k');
   catcher.color = '#e6ccff';
 
   // Create falling object (good)
-  fallingObject = new Sprite(100, 0, 20);
+  fallingObject = new Sprite(width * 0.25, 0, 20);
   fallingObject.color = '#cab4df';
   fallingObject.stroke = '#cab4df';
   fallingObject.strokeWeight = 3;
   fallingObject.vel.y = 2;
+  fallingObject.vel.x = 0;
 
   // Create lose object (bad)
-  loseObject = new Sprite(100, 0, 20);
+  loseObject = new Sprite(width * 0.75, 0, 20);
   loseObject.color = '#220240';
   loseObject.vel.y = 2;
+  loseObject.vel.x = 0;
   loseObject.stroke = '#220240';
   loseObject.strokeWeight = 3;
 
@@ -522,7 +529,7 @@ function darkPathMinigame(){
   //Don't let the player move off the screen
   if (player.y < 20) {
     player.y = 20;
-  } else if (player.y > 400) {
+  } else if (player.y > height) {
     player.vel.x = 0;
     player.vel.y = 0;
     youWinD();
@@ -530,8 +537,8 @@ function darkPathMinigame(){
 
   if (player.x < 20) {
     player.x = 20;
-  } else if (player.x > 380) {
-    player.x = 380;
+  } else if (player.x > width - 20) {
+    player.x = width - 20;
   }
 
 
@@ -544,7 +551,7 @@ function darkPathMinigame(){
   //Check if player collides with avoiders
   // step 3: check collisions 
   if (player.collides(avoider1) || player.collides(avoider2) || player.collides(avoider3) || player.collides(avoider4) || player.collides(avoider5)) {
-    player.x = 200; // step 3: Move the ball to the start
+    player.x = width/2; // step 3: Move the ball to the start
     player.y = 20; // step 3: Move the ball to the start
     scoreD = scoreD - 1;
 
@@ -634,28 +641,26 @@ function lightPathMinigame(){
   background(miniGamebackgroundImagel);
 
   // Position the game sprites
-  catcher.pos = {x: catcher.x, y: 380};
-  if (fallingObject.pos.x < 0) {
+  catcher.pos = {x: catcher.x, y: height - 20};
+  
+  // Reset falling objects when they go off screen or start new ones
+  if (fallingObject.pos.x < 0 || fallingObject.y > height) {
     fallingObject.pos = {x: random(width), y: 0};
-    fallingObject.vel.y = 2;
+    fallingObject.vel.y = random(2, 4);
+    fallingObject.vel.x = 0; // No horizontal movement
   }
-  if (loseObject.pos.x < 0) {
+  if (loseObject.pos.x < 0 || loseObject.y > height) {
     loseObject.pos = {x: random(width), y: 0};
-    loseObject.vel.y = 2;
+    loseObject.vel.y = random(2, 4);
+    loseObject.vel.x = 0; // No horizontal movement
   }
-
-
-
-    // Directions
-    // fill(0);
-    // textSize(12);
-    // text("Move the \ncatcher with the \nleft and right \narrow keys to \ncatch the falling \nobjects.", width - 100, 20);
 
     // If fallingObject reaches bottom, lose a point
     if (fallingObject.y >= height) {
       fallingObject.y = 0;
       fallingObject.x = random(width);
-      fallingObject.vel.y = random(1, 5);
+      fallingObject.vel.y = random(2, 4);
+      fallingObject.vel.x = 0;
       scoreL = scoreL - 1;
     }
 
@@ -663,7 +668,8 @@ function lightPathMinigame(){
     if (loseObject.y >= height) {
       loseObject.y = 0;
       loseObject.x = random(width);
-      loseObject.vel.y = random(1, 5);
+      loseObject.vel.y = random(2, 4);
+      loseObject.vel.x = 0;
     }
 
     // Show mobile controls if on mobile
@@ -676,10 +682,10 @@ function lightPathMinigame(){
     let rightPressed = kb.pressing('right') || (isMobile && rightButton.mouse.pressing());
     
     if (leftPressed) {
-      catcher.vel.x = -3;
+      catcher.vel.x = -5;
     }
     else if (rightPressed) {
-      catcher.vel.x = 3;
+      catcher.vel.x = 5;
     }
     else {
       catcher.vel.x = 0;
@@ -689,16 +695,16 @@ function lightPathMinigame(){
     if (catcher.x < 50) {
       catcher.x = 50;
     }
-    else if (catcher.x > 350) {
-      catcher.x = 350;
+    else if (catcher.x > width - 50) {
+      catcher.x = width - 50;
     }
 
     // If fallingObject collides with catcher, gain a point
     if (fallingObject.collides(catcher)) {
       fallingObject.y = 0;
       fallingObject.x = random(width);
-      fallingObject.vel.y = random(1, 5);
-      fallingObject.direction = 'down';
+      fallingObject.vel.y = random(2, 4);
+      fallingObject.vel.x = 0;
       scoreL = scoreL + 1;
     }
 
@@ -706,8 +712,8 @@ function lightPathMinigame(){
     if (loseObject.collides(catcher)) {
       loseObject.y = 0;
       loseObject.x = random(width);
-      loseObject.vel.y = random(1, 5);
-      loseObject.direction = 'down';
+      loseObject.vel.y = random(2, 4);
+      loseObject.vel.x = 0;
       scoreL = scoreL - 1;
     }
 
@@ -833,19 +839,19 @@ function setupMobileControls() {
 function showMobileControls() {
   if (!isMobile) return;
   
-  // Position controls for dark path minigame (4-way movement)
-  leftButton.pos = {x: 50, y: height - 50};
-  rightButton.pos = {x: 150, y: height - 50};
-  upButton.pos = {x: 100, y: height - 100};
-  downButton.pos = {x: 100, y: height - 50};
+  // Position controls for dark path minigame (4-way movement) - responsive to screen size
+  leftButton.pos = {x: width * 0.15, y: height - 60};
+  rightButton.pos = {x: width * 0.45, y: height - 60};
+  upButton.pos = {x: width * 0.3, y: height - 120};
+  downButton.pos = {x: width * 0.3, y: height - 60};
 }
 
 function showMobileControlsLight() {
   if (!isMobile) return;
   
-  // Position controls for light path minigame (left/right only)
-  leftButton.pos = {x: 80, y: height - 50};
-  rightButton.pos = {x: 200, y: height - 50};
+  // Position controls for light path minigame (left/right only) - responsive to screen size
+  leftButton.pos = {x: width * 0.2, y: height - 60};
+  rightButton.pos = {x: width * 0.8, y: height - 60};
   upButton.pos = {x: -200, y: -200}; // Hide up/down buttons
   downButton.pos = {x: -200, y: -200};
 }
@@ -860,6 +866,11 @@ function hideMobileControls() {
 }
 
 
+
+// Make canvas responsive when window is resized
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
 
 // // Listen for mouse click to restart after win/lose
 // function mousePressed() {

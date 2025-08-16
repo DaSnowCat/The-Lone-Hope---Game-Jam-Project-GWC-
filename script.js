@@ -24,6 +24,10 @@ let continueButton;
 
 let nextButtonL1
 
+//Mobile Control Variables
+let leftButton, rightButton, upButton, downButton;
+let isMobile = false;
+
 //Count variable
 let screen = 0; // Start at screen 0 (title screen)
 
@@ -63,6 +67,9 @@ function preload(){
 /* SETUP RUNS ONCE */
 function setup() {
   createCanvas(400, 400);
+  
+  // Detect if mobile device
+  isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   // Set up the title screen
   background(backgroundImage);
@@ -78,15 +85,21 @@ function setup() {
   nextButtonL1 = new Sprite(-200,-200);
   continueButton = new Sprite(-200,-200);
 
-  // EnterButton Properties
-  enterButton.w = 150;
-  enterButton.h = 40;
+  // Mobile control buttons (initially hidden)
+  leftButton = new Sprite(-200, -200);
+  rightButton = new Sprite(-200, -200);
+  upButton = new Sprite(-200, -200);
+  downButton = new Sprite(-200, -200);
+
+  // EnterButton Properties - larger for mobile
+  enterButton.w = isMobile ? 200 : 150;
+  enterButton.h = isMobile ? 50 : 40;
   enterButton.color = '#2E1065';
   enterButton.stroke = '#7A00E6';
   enterButton.strokeWeight = 3;
   enterButton.textColor = 'white';
-  enterButton.text = 'Press Enter to Start';
-  enterButton.textSize = 12;
+  enterButton.text = isMobile ? 'Tap to Start' : 'Press Enter to Start';
+  enterButton.textSize = isMobile ? 16 : 12;
   enterButton.collider = 'k';
 
 
@@ -148,6 +161,9 @@ function setup() {
   loseObject.stroke = '#220240';
   loseObject.strokeWeight = 3;
 
+  // Setup mobile control buttons
+  setupMobileControls();
+  
   }
 
 
@@ -258,6 +274,9 @@ function titleScreen() {
   catcher.pos = {x: -100, y: -100};
   fallingObject.pos = {x: -100, y: -100};
   loseObject.pos = {x: -100, y: -100};
+  
+  // Hide mobile controls
+  hideMobileControls();
 
   //Text Properties
   textFont(introFont);
@@ -296,29 +315,29 @@ function screenChoiceDoL() {
        width/2,
        height/2 - 100);
 
-  // Add A1 Button
-  a1Button.pos = {x: width/2 - 75, y: height/2 + 100};
-  a1Button.w = 100;
-  a1Button.h = 40;
+  // Add A1 Button - responsive sizing
+  a1Button.pos = {x: width/2 - (isMobile ? 85 : 75), y: height/2 + 100};
+  a1Button.w = isMobile ? 120 : 100;
+  a1Button.h = isMobile ? 50 : 40;
   a1Button.collider = 'k';
   a1Button.color = '#2E1065';
   a1Button.stroke = '#7A00E6';
   a1Button.strokeWeight = 5;
   a1Button.textColor = 'white';
   a1Button.text = 'Dark Path';
-  a1Button.textSize = 20;
+  a1Button.textSize = isMobile ? 18 : 20;
 
-  //Add A2 Button
-  a2Button.pos = {x: width/2 + 75, y: height/2 + 100};
-  a2Button.w = 100;
-  a2Button.h = 40;
+  //Add A2 Button - responsive sizing
+  a2Button.pos = {x: width/2 + (isMobile ? 85 : 75), y: height/2 + 100};
+  a2Button.w = isMobile ? 120 : 100;
+  a2Button.h = isMobile ? 50 : 40;
   a2Button.collider = 'k';
   a2Button.color = '#d9b3ff';
   a2Button.stroke = '#26004d';
   a2Button.strokeWeight = 5;
   a2Button.textColor = 'white';
   a2Button.text = 'Light Path';
-  a2Button.textSize = 20;
+  a2Button.textSize = isMobile ? 18 : 20;
 
 
 }
@@ -445,14 +464,24 @@ function darkPathMinigame(){
   background(miniGamebackgroundImaged);
   startButtonD.pos = {x: -200, y: -200}
 
+  // Show mobile controls if on mobile
+  if (isMobile) {
+    showMobileControls();
+  }
 
-  if (kb.pressing("left")) {
+  // Handle both keyboard and mobile touch controls
+  let leftPressed = kb.pressing("left") || (isMobile && leftButton.mouse.pressing());
+  let rightPressed = kb.pressing("right") || (isMobile && rightButton.mouse.pressing());
+  let upPressed = kb.pressing("up") || (isMobile && upButton.mouse.pressing());
+  let downPressed = kb.pressing("down") || (isMobile && downButton.mouse.pressing());
+
+  if (leftPressed) {
     player.vel.x = -2;
-  } else if (kb.pressing("right")) {
+  } else if (rightPressed) {
     player.vel.x = 2;
-  } else if (kb.pressing("down")) { // step 2: moving the ball up and down
+  } else if (downPressed) {
     player.vel.y = 2;
-  } else if (kb.pressing("up")) { // step 2: moving the ball up and down
+  } else if (upPressed) {
     player.vel.y = -2;
   } else {
     player.vel.x = 0;
@@ -535,6 +564,9 @@ function darkPathMinigame(){
       avoider5.x = -1000;
       avoider5.vel.x = 0;
 
+      // Hide mobile controls
+      hideMobileControls();
+
       //Display you lose message
       fill('white');
       textSize(40);
@@ -563,6 +595,9 @@ function darkPathMinigame(){
   avoider4.vel.x = 0;
   avoider5.x = -1000;
   avoider5.vel.x = 0;
+  
+  // Hide mobile controls
+  hideMobileControls();
   
 
 
@@ -631,11 +666,19 @@ function lightPathMinigame(){
       loseObject.vel.y = random(1, 5);
     }
 
-    // Move catcher
-    if (kb.pressing('left')) {
+    // Show mobile controls if on mobile
+    if (isMobile) {
+      showMobileControlsLight();
+    }
+
+    // Move catcher - handle both keyboard and mobile touch
+    let leftPressed = kb.pressing('left') || (isMobile && leftButton.mouse.pressing());
+    let rightPressed = kb.pressing('right') || (isMobile && rightButton.mouse.pressing());
+    
+    if (leftPressed) {
       catcher.vel.x = -3;
     }
-    else if (kb.pressing('right')) {
+    else if (rightPressed) {
       catcher.vel.x = 3;
     }
     else {
@@ -674,6 +717,9 @@ function lightPathMinigame(){
       fallingObject.pos = { x: -200, y: -200 };
       loseObject.pos = { x: -200, y: -200 };
 
+      // Hide mobile controls
+      hideMobileControls();
+
       fill('white');
       textSize(40);
       textAlign(CENTER, CENTER);
@@ -706,6 +752,9 @@ function youWinL() {
   catcher.pos = { x: -200, y: -200 };
   fallingObject.pos = { x: -200, y: -200 };
   loseObject.pos = { x: -200, y: -200 };
+  
+  // Hide mobile controls
+  hideMobileControls();
 
   
 
@@ -730,6 +779,84 @@ function keyPressed() {
       soundMusic.loop();
     }
   }
+}
+
+// Mobile control functions
+function setupMobileControls() {
+  if (!isMobile) return;
+  
+  // Left button
+  leftButton.w = 60;
+  leftButton.h = 60;
+  leftButton.color = '#2E1065';
+  leftButton.stroke = '#7A00E6';
+  leftButton.strokeWeight = 3;
+  leftButton.textColor = 'white';
+  leftButton.text = '←';
+  leftButton.textSize = 24;
+  leftButton.collider = 'k';
+
+  // Right button
+  rightButton.w = 60;
+  rightButton.h = 60;
+  rightButton.color = '#2E1065';
+  rightButton.stroke = '#7A00E6';
+  rightButton.strokeWeight = 3;
+  rightButton.textColor = 'white';
+  rightButton.text = '→';
+  rightButton.textSize = 24;
+  rightButton.collider = 'k';
+
+  // Up button
+  upButton.w = 60;
+  upButton.h = 60;
+  upButton.color = '#2E1065';
+  upButton.stroke = '#7A00E6';
+  upButton.strokeWeight = 3;
+  upButton.textColor = 'white';
+  upButton.text = '↑';
+  upButton.textSize = 24;
+  upButton.collider = 'k';
+
+  // Down button
+  downButton.w = 60;
+  downButton.h = 60;
+  downButton.color = '#2E1065';
+  downButton.stroke = '#7A00E6';
+  downButton.strokeWeight = 3;
+  downButton.textColor = 'white';
+  downButton.text = '↓';
+  downButton.textSize = 24;
+  downButton.collider = 'k';
+}
+
+function showMobileControls() {
+  if (!isMobile) return;
+  
+  // Position controls for dark path minigame (4-way movement)
+  leftButton.pos = {x: 50, y: height - 50};
+  rightButton.pos = {x: 150, y: height - 50};
+  upButton.pos = {x: 100, y: height - 100};
+  downButton.pos = {x: 100, y: height - 50};
+}
+
+function showMobileControlsLight() {
+  if (!isMobile) return;
+  
+  // Position controls for light path minigame (left/right only)
+  leftButton.pos = {x: 80, y: height - 50};
+  rightButton.pos = {x: 200, y: height - 50};
+  upButton.pos = {x: -200, y: -200}; // Hide up/down buttons
+  downButton.pos = {x: -200, y: -200};
+}
+
+function hideMobileControls() {
+  if (!isMobile) return;
+  
+  leftButton.pos = {x: -200, y: -200};
+  rightButton.pos = {x: -200, y: -200};
+  upButton.pos = {x: -200, y: -200};
+  downButton.pos = {x: -200, y: -200};
 }
 
 

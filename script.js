@@ -1,3 +1,8 @@
+/* =========================
+   THE LONE HOPE — MOBILE + PC FRIENDLY
+   p5.js + p5play (keep original flow, add responsiveness, touch controls, restart)
+   ========================= */
+
 /* VARIABLES */
 let backgroundImage;
 let darkPathbackgroundImage;
@@ -10,350 +15,265 @@ let winBackgroundD;
 let winBackgroundL;
 let soundMusic;
 
-//Button Variables
+// Buttons (p5play Sprites)
 let enterButton;
 let a1Button;
 let a2Button;
 let nextButtonD1;
-let backButton;
-
+let backButton; // reserved (not used yet)
 let startButtonD;
 let startButtonL;
-
 let continueButton;
-let restartButton;
+let nextButtonL1;
+let restartButton; // used on endings
 
-let nextButtonL1
-
-//Mobile Control Variables
-let leftButton, rightButton, upButton, downButton;
-let isMobile = false;
-
-//Count variable
+// Count / Screen state
 let screen = 0; // Start at screen 0 (title screen)
 
-//Minigame Variables 
-
-//Dark Path Minigame Variables
+// Minigame Variables 
+// Dark Path
 let avoider1, avoider2, avoider3, avoider4, avoider5;
 let player;
 let scoreD = 5;
 
-//Light Path
+// Light Path
 let catcher;
 let fallingObject;
 let loseObject;
 let scoreL = 1;
 
+// Responsive scale vs original 400x400 layout
+const BASE_W = 400;
+const BASE_H = 400;
+let SF = 1; // scale factor
 
-
-
-/* PRELOAD LOADS FILES */
+/* -------------------------
+   PRELOAD LOADS FILES
+------------------------- */
 function preload(){
   backgroundImage = loadImage('assets/Purple Gradient Forest.png');
   introFont = loadFont('assets/Melted Monster.ttf');
   textFont1 = loadFont('assets/CaveatBrush-Regular.ttf');
   darkPathbackgroundImage = loadImage('assets/Dark Path Background Image.png');
   lightPathbackgroundImage = loadImage('assets/Light Path Forest Background Image.png');
-
   miniGamebackgroundImaged = loadImage('assets/Minigame Background dark purple.png');
   miniGamebackgroundImagel = loadImage('assets/Light Path Minigame Background.png');
   winBackgroundD = loadImage('assets/Win screen dark purple gradient.jpg');
-  winBackgroundL = loadImage('assets/Light path win screen gradient.jpg')
-  soundMusic = loadSound('assets/Celtic Mystery Music _ Forest of Forgetfulness.mp3')
+  winBackgroundL = loadImage('assets/Light path win screen gradient.jpg');
+  soundMusic = loadSound('assets/Celtic Mystery Music _ Forest of Forgetfulness.mp3');
 }
 
-
-
-/* SETUP RUNS ONCE */
+/* -------------------------
+   SETUP RUNS ONCE
+------------------------- */
 function setup() {
-  // Make canvas responsive to screen size
-  if (isMobile) {
-    createCanvas(windowWidth, windowHeight);
-  } else {
-    createCanvas(windowWidth, windowHeight);
-  }
-  
-  // Detect if mobile device
-  isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  createCanvas(windowWidth, windowHeight); // full screen
+  computeScale();
 
-  // Set up the title screen
-  background(backgroundImage);
-
-  //Buttons positioned offscreen except enterButton
-  enterButton = new Sprite(width/2, height/2 + 130);
+  // Buttons positioned off-screen except enterButton
+  enterButton = new Sprite(width/2, height/2 + 130*SF);
   a1Button = new Sprite(-200, -200);
   a2Button = new Sprite(-200, -200);
   startButtonD = new Sprite(-200, -200);
   startButtonL = new Sprite(-200, -200);
+  nextButtonD1 = new Sprite(-200, -200);
+  nextButtonL1 = new Sprite(-200, -200);
+  continueButton = new Sprite(-200, -200);
+  restartButton = new Sprite(-200, -200);
 
-  nextButtonD1 = new Sprite(-200,-200);
-  nextButtonL1 = new Sprite(-200,-200);
-  continueButton = new Sprite(-200,-200);
-  restartButton = new Sprite(-200,-200);
+  styleButton(enterButton, 150, 40, '#2E1065', '#7A00E6', 'Press Enter to Start', 14);
 
-  // Mobile control buttons (initially hidden)
-  leftButton = new Sprite(-200, -200);
-  rightButton = new Sprite(-200, -200);
-  upButton = new Sprite(-200, -200);
-  downButton = new Sprite(-200, -200);
+  // Create the player (Dark Path)
+  player = new Sprite(width/2, 20*SF, 30*SF);
+  player.color = '#d6b7e1';
 
-  // EnterButton Properties - larger for mobile
-  enterButton.w = isMobile ? 200 : 150;
-  enterButton.h = isMobile ? 50 : 40;
-  enterButton.color = '#2E1065';
-  enterButton.stroke = '#7A00E6';
-  enterButton.strokeWeight = 3;
-  enterButton.textColor = 'white';
-  enterButton.text = isMobile ? 'Tap to Start' : 'Press Enter to Start';
-  enterButton.textSize = isMobile ? 16 : 12;
-  enterButton.collider = 'k';
+  // Create the avoiders
+  avoider1 = new Sprite(50*SF, 230*SF, 145*SF, 40*SF, 'k');
+  avoider2 = new Sprite(-100, 200*SF, 80*SF, 30*SF, 'k');
+  avoider3 = new Sprite(-100, 300*SF, 180*SF, 20*SF, 'k');
+  avoider4 = new Sprite(-150, 250*SF, 100*SF, 20*SF, 'k');
+  avoider5 = new Sprite(-80, 350*SF, 140*SF, 20*SF, 'k');
 
+  setupAvoider(avoider1, '#cc33ff', 3, 'Life is not a problem to be solved,\nbut a reality to be experienced', 12, 'black');
+  setupAvoider(avoider2, '#d2a5f3', 5, 'In darkness, \ntruth is hidden', 13, 'white');
+  setupAvoider(avoider3, '#cc33ff', 7, 'This too shall pass', 13, 'black');
+  setupAvoider(avoider4, '#d2a5f3', 4, 'Still waters run deep.', 13, 'white');
+  setupAvoider(avoider5, '#cc33ff', 2, 'Dream but never sleep.', 13, 'black');
 
-  //Create the player 
-  player = new Sprite(width/2, 20, 30);
-  player.color = "#d6b7e1";
-
-  //Create the avoiders
-  avoider1 = new Sprite(50, height * 0.575, 145, 40, "k");
-  avoider1.color = "#cc33ff";
-  avoider1.text = 'Life is not a problem to be solved, \nbut a reality to be experienced'
-  avoider1.textSize = 12;
-  avoider1.textColor = 'black';
-  avoider1.vel.x = 3; 
-
-  avoider2 = new Sprite(-100, height * 0.5, 80, 30, "k");
-  avoider2.color = "#d2a5f3";
-  avoider2.vel.x = 5; 
-  avoider2.text = 'In darkness, \ntruth is hidden'
-  avoider2.textSize = 13;
-  
-
-  avoider3 = new Sprite(-100, height * 0.75, 180, 20, "k");
-  avoider3.color = "#cc33ff";
-  avoider3.vel.x = 7; 
-  avoider3.text = 'This too shall pass'
-  avoider3.textColor = 'black';
-  avoider3.textSize = 13;
-
-  avoider4 = new Sprite(-150, height * 0.625, 100, 20, "k");
-  avoider4.color = "#d2a5f3";
-  avoider4.vel.x = 4; 
-  avoider4.text = 'Still waters run deep.'
-  avoider4.textSize = 13;
-
-  avoider5 = new Sprite(-80, height * 0.875, 140, 20, "k");
-  avoider5.color = "#cc33ff";
-  avoider5.vel.x = 2; 
-  avoider5.text = 'Dream but never sleep.'
-  avoider5.textColor = 'black';
-  avoider5.textSize = 13;
-
-  //Light Path Minigame Sprites
-
-  catcher = new Sprite(width/2, height - 20, 100, 20, 'k');
+  // Light Path Minigame Sprites
+  catcher = new Sprite(width/2, height - 20*SF, 100*SF, 20*SF, 'k');
   catcher.color = '#e6ccff';
 
   // Create falling object (good)
-  fallingObject = new Sprite(width * 0.25, 0, 20);
+  fallingObject = new Sprite(100, 0, 20*SF);
   fallingObject.color = '#cab4df';
   fallingObject.stroke = '#cab4df';
   fallingObject.strokeWeight = 3;
   fallingObject.vel.y = 2;
-  fallingObject.vel.x = 0;
 
   // Create lose object (bad)
-  loseObject = new Sprite(width * 0.75, 0, 20);
+  loseObject = new Sprite(100, 0, 20*SF);
   loseObject.color = '#220240';
   loseObject.vel.y = 2;
-  loseObject.vel.x = 0;
   loseObject.stroke = '#220240';
   loseObject.strokeWeight = 3;
+}
 
-  // Setup mobile control buttons
-  setupMobileControls();
-  
+function styleButton(btn, w, h, fillCol, strokeCol, label, txtSize){
+  btn.w = w*SF; btn.h = h*SF; btn.collider = 'k';
+  btn.color = fillCol; btn.stroke = strokeCol; btn.strokeWeight = 3*SF;
+  btn.textColor = 'white'; btn.text = label; btn.textSize = max(12, txtSize*SF);
+}
+
+function setupAvoider(s, col, vx, t='', ts=12, tc='white'){
+  s.color = col; s.vel.x = vx; s.text = t; s.textSize = max(10, ts*SF); s.textColor = tc;
+}
+
+function computeScale(){
+  SF = min(width/BASE_W, height/BASE_H);
+}
+
+function windowResized(){
+  resizeCanvas(windowWidth, windowHeight);
+  computeScale();
+  // keep UI/players sensibly placed when resizing
+  if (screen === 0){
+    enterButton.pos = {x: width/2, y: height/2 + 130*SF};
+    styleButton(enterButton, 150, 40, '#2E1065', '#7A00E6', 'Press Enter to Start', 14);
   }
+  catcher.y = height - 20*SF;
+}
 
-
-
-
-
-
-
-
-/* DRAW LOOP REPEATS */
+/* -------------------------
+   DRAW LOOP REPEATS
+------------------------- */
 function draw() {
-
   // Background screen image
   image(backgroundImage, 0, 0, width, height);
 
-  //Show title screen with "The Lone Hope"
-  if (screen == 0) {
+  // Title screen
+  if (screen === 0) {
     titleScreen();
   }
 
-  if (enterButton.mouse.presses()){
+  // Enter button or keyboard Enter to proceed
+  if (enterButton?.mouse?.presses() || keyIsDown(13)){
     screen = 'Choice A Screen';
   }
 
-  //Music playing
-  if (screen == 'Choice A Screen'){
+  // Music & choice screen
+  if (screen === 'Choice A Screen'){
     screenChoiceDoL();
-    if (!soundMusic.isPlaying()) {
-      soundMusic.loop();
-    }
+    if (soundMusic && !soundMusic.isPlaying()) soundMusic.loop();
 
     if (a1Button.mouse.presses()){
-      screen = 'Dark Path dB1'
+      screen = 'Dark Path dB1';
     } else if (a2Button.mouse.presses()){
-      screen = 'Light Path lB1'
+      screen = 'Light Path lB1';
     }
+  }
 
-  } 
-
-if (screen == 'Light Path lB1'){
+  if (screen === 'Light Path lB1'){
     lightPathA1();
-}
+  } else if (screen === 'Dark Path dB1'){
+    darkPathA1();
+  }
 
-
-else if (screen == 'Dark Path dB1'){
-  darkPathA1();
-}
-
-if (nextButtonD1.mouse.presses()){
-  screen = 'Dark Path Continues 1';
-}
-
-  else if (screen == 'Dark Path Continues 1'){
+  if (nextButtonD1.mouse.presses()){
+    screen = 'Dark Path Continues 1';
+  } else if (screen === 'Dark Path Continues 1'){
     contDarkPath();
   }
 
-if (startButtonD.mouse.presses()){
-  screen = 'Minigame (Avoider Game) for Dark Path Started';
-}
-
-else if ( screen == 'Minigame (Avoider Game) for Dark Path Started'){
-   darkPathMinigame()
-
-}
+  if (startButtonD.mouse.presses()){
+    screen = 'Minigame (Avoider Game) for Dark Path Started';
+  } else if (screen === 'Minigame (Avoider Game) for Dark Path Started'){
+    darkPathMinigame();
+  }
 
   if (nextButtonL1.mouse.presses()){
     screen = 'Light Path Continues 1';
-  }
-  else if (screen == 'Light Path Continues 1'){
+  } else if (screen === 'Light Path Continues 1'){
     contLightPath();
   }
 
   if (startButtonL.mouse.presses()){
     screen = 'Light Path Minigame Started';
-  }
-  else if (screen == 'Light Path Minigame Started'){
+  } else if (screen === 'Light Path Minigame Started'){
     lightPathMinigame();
   }
 
-  // Handle restart button click
-  if (restartButton.mouse.presses()) {
-    restartGame();
+  // Restart button handler (visible only on endings)
+  if (restartButton?.mouse?.presses()){
+    hardRestartToTitle();
   }
-
 }
 
-
-
-
-
-
-
-
-
-/* SCREEN FUNCTIONS */
-
+/* -------------------------
+   SCREEN FUNCTIONS
+------------------------- */
 // Title Screen Function
 function titleScreen() {
-
-  //Hide minigame stuff
+  // Hide minigame stuff
   avoider1.pos = {x: -100, y: -100};
   avoider2.pos = {x: -100, y: -100};
   avoider3.pos = {x: -100, y: -100};
   avoider4.pos = {x: -100, y: -100};
   avoider5.pos = {x: -100, y: -100};
-  player.pos =  {x: -100, y: -100};
+  player.pos   = {x: -100, y: -100};
 
   catcher.pos = {x: -100, y: -100};
   fallingObject.pos = {x: -100, y: -100};
-  loseObject.pos = {x: -100, y: -100};
-  
-  // Hide mobile controls
-  hideMobileControls();
+  loseObject.pos    = {x: -100, y: -100};
 
-  //Text Properties
+  // ensure Enter button is visible on title
+  enterButton.pos = {x: width/2, y: height/2 + 130*SF};
+  styleButton(enterButton, 150, 40, '#2E1065', '#7A00E6', 'Press Enter to Start', 14);
+
+  // Title text
   textFont(introFont);
-  textSize(50);
-  fill(255, 255, 255);
+  textSize(max(32, 50*SF));
+  fill(255);
   textAlign(CENTER, TOP);
-
-
-  text("The Lone \nHope", width/2, height * 0.075);
-
+  text('The Lone \nHope', width/2, height * 0.075);
 }
 
 // Dark Path or Light Path Choices 
 function screenChoiceDoL() {
-  background(backgroundImage);
+  image(backgroundImage, 0, 0, width, height);
 
-  // Hide enter button
+  // Hide enter button + minigame sprites
   enterButton.pos = {x: -100, y: -100};
   avoider1.pos = {x: -100, y: -100};
   avoider2.pos = {x: -100, y: -100};
   avoider3.pos = {x: -100, y: -100};
   avoider4.pos = {x: -100, y: -100};
   avoider5.pos = {x: -100, y: -100};
-  player.pos =  {x: -100, y: -100};
+  player.pos   = {x: -100, y: -100};
 
   catcher.pos = {x: -100, y: -100};
   fallingObject.pos = {x: -100, y: -100};
-  loseObject.pos = {x: -100, y: -100};
+  loseObject.pos    = {x: -100, y: -100};
 
   // Display screen text
   textFont(textFont1);
-  textSize(20);
-  fill(255, 255, 255);
+  textSize(max(14, 20*SF));
+  fill(255);
   textAlign(CENTER, CENTER);
-  text('You have found yourself in a strange forest. \nEverywhere you go, you see shades of purple. \nYou walk ahead and stumble upon two paths. \nOne is dark while the other is light. \nWhich will you choose? ',
-       width/2,
-       height/2 - 100);
+  text('You have found yourself in a strange forest. \nEverywhere you go, you see shades of purple. \nYou walk ahead and stumble upon two paths. \nOne is dark while the other is light. \nWhich will you choose? ', width/2, height/2 - 120*SF);
 
-  // Add A1 Button - responsive sizing
-  a1Button.pos = {x: width/2 - (isMobile ? 85 : 75), y: height/2 + 100};
-  a1Button.w = isMobile ? 120 : 100;
-  a1Button.h = isMobile ? 50 : 40;
-  a1Button.collider = 'k';
-  a1Button.color = '#2E1065';
-  a1Button.stroke = '#7A00E6';
-  a1Button.strokeWeight = 5;
-  a1Button.textColor = 'white';
-  a1Button.text = 'Dark Path';
-  a1Button.textSize = isMobile ? 18 : 20;
+  // Add A1 Button (Dark Path)
+  a1Button.pos = {x: width/2 - 90*SF, y: height/2 + 110*SF};
+  styleButton(a1Button, 110, 46, '#2E1065', '#7A00E6', 'Dark Path', 20);
 
-  //Add A2 Button - responsive sizing
-  a2Button.pos = {x: width/2 + (isMobile ? 85 : 75), y: height/2 + 100};
-  a2Button.w = isMobile ? 120 : 100;
-  a2Button.h = isMobile ? 50 : 40;
-  a2Button.collider = 'k';
-  a2Button.color = '#d9b3ff';
-  a2Button.stroke = '#26004d';
-  a2Button.strokeWeight = 5;
-  a2Button.textColor = 'white';
-  a2Button.text = 'Light Path';
-  a2Button.textSize = isMobile ? 18 : 20;
-
-
+  // Add A2 Button (Light Path)
+  a2Button.pos = {x: width/2 + 90*SF, y: height/2 + 110*SF};
+  styleButton(a2Button, 110, 46, '#d9b3ff', '#26004d', 'Light Path', 20);
 }
 
 // Screen A2 Function
 function darkPathA1() {
-  background(darkPathbackgroundImage)
+  image(darkPathbackgroundImage, 0, 0, width, height);
 
   // A1 and A2 Hidden
   a1Button.pos = {x: -200, y: -200};
@@ -361,654 +281,312 @@ function darkPathA1() {
 
   // Display screen text
   textFont(textFont1);
-  textSize(15);
-  fill(255, 255, 255);
+  textSize(max(12, 16*SF));
+  fill(255);
   textAlign(CENTER, CENTER);
-  text('"Soliday, soliday!", \nYou heard someone shounting in the distance. \n"This is for hope: without them, we quail \nThis is for wits: without them we fail \nThis is for fear: your fear makes you stornger \nThis is for anger at everything wrong \nThis is your name, simple and true \n\nAnd this is the secret held only by you... \nDefeat Mancrow with these by passing the traps!"" ',
-       width/2,
-       height/2 - 100);
+  text('\"Soliday, soliday!\", \nYou heard someone shounting in the distance. \n\"This is for hope: without them, we quail \nThis is for wits: without them we fail \nThis is for fear: your fear makes you stornger \nThis is for anger at everything wrong \nThis is your name, simple and true \n\nAnd this is the secret held only by you... \nDefeat Mancrow with these by passing the traps!\"\" ', width/2, height/2 - 120*SF);
 
-  //Next button properties
-  nextButtonD1.pos = {x: width/2, y:height/2 + 100}
-  nextButtonD1.w = 100;
-  nextButtonD1.h = 40;
-  nextButtonD1.color = '#2E1065';
-  nextButtonD1.stroke = '#7A00E6';
-  nextButtonD1.stokeWeight = 5;
-  nextButtonD1.textColor = 'white';
-  nextButtonD1.text = 'NEXT';
-  nextButtonD1.textSize = 12;
-
-
-
+  // Next button
+  nextButtonD1.pos = {x: width/2, y: height/2 + 120*SF};
+  styleButton(nextButtonD1, 120, 46, '#2E1065', '#7A00E6', 'NEXT', 16);
 }
 
 // Light Path Function
 function lightPathA1(){
-
-  background(lightPathbackgroundImage);
+  image(lightPathbackgroundImage, 0, 0, width, height);
 
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
 
-  nextButtonL1.pos = {x: width/2, y:height/2 + 100}
-  nextButtonL1.w = 100;
-  nextButtonL1.h = 40;
-  nextButtonL1.color = '#d9b3ff';
-  nextButtonL1.stroke = '#26004d';
-  nextButtonL1.stokeWeight = 5;
-  nextButtonL1.textColor = 'white';
-  nextButtonL1.text = 'NEXT';
-  nextButtonL1.textSize = 20;
+  nextButtonL1.pos = {x: width/2, y: height/2 + 120*SF};
+  styleButton(nextButtonL1, 120, 46, '#d9b3ff', '#26004d', 'NEXT', 18);
 
   textFont(textFont1);
-  textSize(20);
+  textSize(max(14, 20*SF));
   fill('white');
   textAlign(CENTER, CENTER);
-  text('\nThe atmosphere has changed to a light purple hue. \nYou feel calm and at peace. \nYet, you have feel the need to escape here. ',
-      width/2,
-      height/2 - 50);
+  text('\nThe atmosphere has changed to a light purple hue. \nYou feel calm and at peace. \nYet, you have feel the need to escape here. ', width/2, height/2 - 80*SF);
 }
 
 function contLightPath(){
-  background(lightPathbackgroundImage);
+  image(lightPathbackgroundImage, 0, 0, width, height);
 
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   nextButtonL1.pos = {x: -200, y: -200};
 
   textFont(textFont1);
-  textSize(20);
-  fill(255, 255, 255);
+  textSize(max(14, 20*SF));
+  fill(255);
   textAlign(CENTER, CENTER);
-  text('To escape, you must collect 10 light orbs. \nDo not collect the dark orbs. \nIf your goes goes less than zero, you lose. \n\nClick the button below to start.',
-       width/2,
-       height/2 - 50);
+  text('To escape, you must collect 10 light orbs. \nDo not collect the dark orbs. \nIf your goes goes less than zero, you lose. \n\nClick the button below to start.', width/2, height/2 - 80*SF);
 
-  startButtonL.pos = {x: width/2, y:height/2 + 100}
-  startButtonL.w = 100;
-  startButtonL.h = 40;
-  startButtonL.color = '#d9b3ff';
-  startButtonL.stroke = '#7A00E6';
-  startButtonL.stokeWeight = 5;
-  startButtonL.textColor = 'white';
-  startButtonL.text = 'START';
-  startButtonL.textSize = 20;
+  startButtonL.pos = {x: width/2, y: height/2 + 110*SF};
+  styleButton(startButtonL, 130, 46, '#d9b3ff', '#7A00E6', 'START', 18);
 }
 
-
-
-
 function contDarkPath(){
-  background(darkPathbackgroundImage)
+  image(darkPathbackgroundImage, 0, 0, width, height);
   a1Button.pos = {x: -200, y: -200};
   a2Button.pos = {x: -200, y: -200};
   nextButtonD1.pos = {x: -200, y: -200};
 
   textFont(textFont1);
-  textSize(20);
-  fill(255, 255, 255);
+  textSize(max(14, 20*SF));
+  fill(255);
   textAlign(CENTER, CENTER);
-  text('To escape, you must avoid the moving tiles \nand make it to the bottom of the screen. \nClick button below to start mini game',
-       width/2,
-       height/2 - 50);
+  text('To escape, you must avoid the moving tiles \nand make it to the bottom of the screen. \nClick button below to start mini game', width/2, height/2 - 80*SF);
 
-  startButtonD.pos = {x: width/2, y:height/2 + 100}
-  startButtonD.w = 100;
-  startButtonD.h = 40;
-  startButtonD.color = '#2E1065';
-  startButtonD.stroke = '#7A00E6';
-  startButtonD.stokeWeight = 3;
-  startButtonD.textColor = 'white';
-  startButtonD.text = 'START';
-  startButtonD.textSize = 12;
-
-
+  startButtonD.pos = {x: width/2, y: height/2 + 110*SF};
+  styleButton(startButtonD, 130, 46, '#2E1065', '#7A00E6', 'START', 16);
 }
 
-
-//Minigame for Dark Path 
+/* -------------------------
+   MINIGAMES & ENDINGS
+------------------------- */
+// Minigame for Dark Path 
 function darkPathMinigame(){
-  
-  background(miniGamebackgroundImaged);
-  startButtonD.pos = {x: -200, y: -200}
+  image(miniGamebackgroundImaged, 0, 0, width, height);
+  startButtonD.pos = {x: -200, y: -200};
 
-  // Show mobile controls if on mobile
-  if (isMobile) {
-    showMobileControls();
+  // Keyboard controls
+  if (kb.pressing('left'))  { player.vel.x = -2*SF; } 
+  else if (kb.pressing('right')) { player.vel.x = 2*SF; } 
+  else { player.vel.x = 0; }
+  if (kb.pressing('down'))  { player.vel.y = 2*SF; } 
+  else if (kb.pressing('up')) { player.vel.y = -2*SF; } 
+  else { player.vel.y = 0; }
+
+  // Touch controls (mobile): quadrants
+  if (touches && touches.length > 0){
+    const tx = touches[0].x, ty = touches[0].y;
+    if (tx < width*0.4)  player.vel.x = -2*SF;
+    if (tx > width*0.6)  player.vel.x =  2*SF;
+    if (ty < height*0.4) player.vel.y = -2*SF;
+    if (ty > height*0.6) player.vel.y =  2*SF;
   }
 
-  // Handle both keyboard and mobile touch controls
-  let leftPressed = kb.pressing("left") || (isMobile && leftButton.mouse.pressing());
-  let rightPressed = kb.pressing("right") || (isMobile && rightButton.mouse.pressing());
-  let upPressed = kb.pressing("up") || (isMobile && upButton.mouse.pressing());
-  let downPressed = kb.pressing("down") || (isMobile && downButton.mouse.pressing());
+  // Reset avoider locations once they reach edge of screen 
+  if (avoider1.x > width) { avoider1.x = -50*SF; avoider1.y = 80*SF;  avoider1.vel.x = 3; }
+  if (avoider2.x > width) { avoider2.x = -50*SF; avoider2.y = 150*SF; avoider2.vel.x = 2; }
+  if (avoider3.x > width) { avoider3.x = -100*SF; avoider3.y = 300*SF; avoider3.vel.x = 1; }
+  if (avoider4.x > width) { avoider4.x = -150*SF; avoider4.y = 250*SF; avoider4.vel.x = 2; }
+  if (avoider5.x > width) { avoider5.x = -80*SF;  avoider5.y = 350*SF; avoider5.vel.x = 2; }
 
-  if (leftPressed) {
-    player.vel.x = -2;
-  } else if (rightPressed) {
-    player.vel.x = 2;
-  } else if (downPressed) {
-    player.vel.y = 2;
-  } else if (upPressed) {
-    player.vel.y = -2;
-  } else {
-    player.vel.x = 0;
-    player.vel.y = 0;
-  }
-
-  //Reset avoider locations once they reach edge of screen 
-  if (avoider1.x > width) {
-    avoider1.x = -50;
-    avoider1.y = 80;
-    avoider1.vel.x = 3;
-  } 
-
-  if (avoider2.x > width) {
-    avoider2.x = -50;
-    avoider2.y = 150;
-    avoider2.vel.x = 2;
-  } 
-
-  if (avoider3.x > width) {
-    avoider3.x = -100;
-    avoider3.y = 300;
-    avoider3.vel.x = 1;
-  } 
-
-  if (avoider4.x > width) {
-    avoider4.x = -150;
-    avoider4.y = 250;
-    avoider4.vel.x = 2;
-  } 
-
-  if (avoider5.x > width) {
-    avoider5.x = -80;
-    avoider5.y = 350;
-    avoider5.vel.x = 2;
-  } 
-
-  //Don't let the player move off the screen
-  if (player.y < 20) {
-    player.y = 20;
-  } else if (player.y > height) {
-    player.vel.x = 0;
-    player.vel.y = 0;
+  //Don't let the player move off the screen & check win BEFORE clamp
+  const bottomBand = 20*SF; // distance from bottom considered a goal band
+  if (player.y >= height - bottomBand){
+    player.vel.x = 0; player.vel.y = 0;
     youWinD();
+    return;
   }
 
-  if (player.x < 20) {
-    player.x = 20;
-  } else if (player.x > width - 20) {
-    player.x = width - 20;
-  }
-
+  if (player.y < 20*SF) player.y = 20*SF;
+  if (player.x < 20*SF) player.x = 20*SF;
+  if (player.x > width - 20*SF) player.x = width - 20*SF;
 
   // Score display
   textAlign(LEFT, BASELINE);
   fill('white');
-  textSize(20);
-  text('Score = ' + scoreD, 10, 30);
+  textSize(max(14, 20*SF));
+  text('Score = ' + scoreD, 10*SF, 30*SF);
 
-  //Check if player collides with avoiders
-  // step 3: check collisions 
+  // Collisions
   if (player.collides(avoider1) || player.collides(avoider2) || player.collides(avoider3) || player.collides(avoider4) || player.collides(avoider5)) {
-    player.x = width/2; // step 3: Move the ball to the start
-    player.y = 20; // step 3: Move the ball to the start
+    player.x = width/2; // reset to start
+    player.y = 20*SF; 
     scoreD = scoreD - 1;
-
 
     //Lose Condition
     if (scoreD < 0){
-      player.x = -200;
-      player.y = -200;
-      avoider1.x = -200;
-      avoider1.vel.x = 0;
-      avoider2.x = -500;
-      avoider2.vel.x = 0;
-      avoider3.x = -1000;
-      avoider3.vel.x = 0;
-      avoider4.x = -1000;
-      avoider4.vel.x = 0;
-      avoider5.x = -1000;
-      avoider5.vel.x = 0;
+      // hide sprites
+      player.x = -200; player.y = -200;
+      avoider1.x = -200; avoider1.vel.x = 0;
+      avoider2.x = -500; avoider2.vel.x = 0;
+      avoider3.x = -1000; avoider3.vel.x = 0;
+      avoider4.x = -1000; avoider4.vel.x = 0;
+      avoider5.x = -1000; avoider5.vel.x = 0;
 
-      // Hide mobile controls
-      hideMobileControls();
+      // Display lose message
+      drawEndingBackdrop('#00000066');
+      fill('white'); textSize(max(24, 40*SF)); textAlign(CENTER, CENTER);
+      text('Bad Ending!', width / 2, height / 2 - 150*SF);
 
-      //Display you lose message
-      fill('white');
-      textSize(40);
-      textAlign(CENTER, CENTER);
-      text('Bad Ending!', width / 2, height / 2 - 150);
+      textSize(max(12, 18*SF));
+      text('Your score ran out. \nMancrow laughs at you and says, \n"Your hope means nothing to me... \nYour wits are far too wee! \nYour fear is justified. \nYour anger is empty pride. \nYour name will be snuffed out..." \nNow you\'re trapped in the forest forever.', width / 2, height / 2 + 20*SF);
 
-      textSize(20);
-      text('Your score ran out. \nMancrow laughs at you and says, \n"Your hope means nothing to me... \nYour wits are far too wee! \nYour fear is justified. \nYour anger is empty pride. \nYour name will be snuffed out..." \nNow your trapped in the forest forever.', width / 2, height / 2 + 30);
-
-      // Add restart button
-      restartButton.pos = {x: width/2, y: height/2 + 150};
-      restartButton.w = isMobile ? 120 : 100;
-      restartButton.h = isMobile ? 50 : 40;
-      restartButton.color = '#2E1065';
-      restartButton.stroke = '#7A00E6';
-      restartButton.strokeWeight = 3;
-      restartButton.textColor = 'white';
-      restartButton.text = 'RESTART';
-      restartButton.textSize = isMobile ? 16 : 12;
-      restartButton.collider = 'k';
-
-      noLoop();
+      showRestart('Back to Title');
+      // keep looping so restart works
     }
-
-  } 
   }
-
-  function youWinD() {
-  //Draw avoiders off of screen
-    background(winBackgroundD);
-  avoider1.x = -200;
-  avoider1.vel.x = 0;
-  avoider2.x = -500;
-  avoider2.vel.x = 0;
-  avoider3.x = -1000;
-  avoider3.vel.x = 0;
-  avoider4.x = -1000;
-  avoider4.vel.x = 0;
-  avoider5.x = -1000;
-  avoider5.vel.x = 0;
-  
-  // Hide mobile controls
-  hideMobileControls();
-  
-
-
-  //Display you win message
-
-    fill('white');
-    textSize(40);
-    textAlign(CENTER, CENTER);
-    text('You defeated Mancrow!', width / 2, height / 2 - 150);
-
-    textSize(20);
-    text('Good Ending. \nYou passed the traps. \nMancrow screams and says: "What is this? Your faith? \nYour doubt? \nI usually get this right. \nNOOOOOO! " \nWoosh, Mancrow vanishes in thine air. \nYou have escaped!', width / 2, height / 2 + 30);
- 
-    // Add restart button
-    restartButton.pos = {x: width/2, y: height/2 + 150};
-    restartButton.w = isMobile ? 120 : 100;
-    restartButton.h = isMobile ? 50 : 40;
-    restartButton.color = '#2E1065';
-    restartButton.stroke = '#7A00E6';
-    restartButton.strokeWeight = 3;
-    restartButton.textColor = 'white';
-    restartButton.text = 'RESTART';
-    restartButton.textSize = isMobile ? 16 : 12;
-    restartButton.collider = 'k';
-
-    noLoop();
 }
 
+function youWinD() {
+  // Draw win background and hide avoiders
+  image(winBackgroundD, 0, 0, width, height);
+  avoider1.x = -200; avoider1.vel.x = 0;
+  avoider2.x = -500; avoider2.vel.x = 0;
+  avoider3.x = -1000; avoider3.vel.x = 0;
+  avoider4.x = -1000; avoider4.vel.x = 0;
+  avoider5.x = -1000; avoider5.vel.x = 0;
 
-//Light Path Minigame Fucntion
+  // Display win message
+  drawEndingBackdrop('#00000040');
+  fill('white');
+  textSize(max(24, 40*SF));
+  textAlign(CENTER, CENTER);
+  text('You defeated Mancrow!', width / 2, height / 2 - 150*SF);
 
+  textSize(max(12, 18*SF));
+  text('Good Ending. \nYou passed the traps. \nMancrow screams and says: "What is this? Your faith? \nYour doubt? \nI usually get this right. \nNOOOOOO!" \nWoosh, Mancrow vanishes in thine air. \nYou have escaped!', width / 2, height / 2 + 30*SF);
+
+  showRestart('Play Again');
+}
+
+// Light Path Minigame Function
 function lightPathMinigame(){
-  
-
   nextButtonL1.pos = {x:-200,y:-200};
   startButtonL.pos = {x:-200,y:-200};
-  background(miniGamebackgroundImagel);
+  image(miniGamebackgroundImagel, 0, 0, width, height);
 
   // Position the game sprites
-  catcher.pos = {x: catcher.x, y: height - 20};
-  
-  // Reset falling objects when they go off screen or start new ones
-  if (fallingObject.pos.x < 0 || fallingObject.y > height) {
-    fallingObject.pos = {x: random(width), y: 0};
-    fallingObject.vel.y = random(2, 4);
-    fallingObject.vel.x = 0; // No horizontal movement
+  catcher.pos = {x: catcher.x, y: height - 20*SF};
+  if (fallingObject.pos.x < 0) { fallingObject.pos = {x: random(width), y: 0}; fallingObject.vel.y = 2; }
+  if (loseObject.pos.x < 0) { loseObject.pos = {x: random(width), y: 0}; loseObject.vel.y = 2; }
+
+  // Keyboard left/right
+  if (kb.pressing('left')) { catcher.vel.x = -3*SF; }
+  else if (kb.pressing('right')) { catcher.vel.x = 3*SF; }
+  else { catcher.vel.x = 0; }
+
+  // Touch: left/right halves
+  if (touches && touches.length > 0){
+    const tx = touches[0].x; catcher.vel.x = (tx < width/2) ? -3*SF : 3*SF;
   }
-  if (loseObject.pos.x < 0 || loseObject.y > height) {
-    loseObject.pos = {x: random(width), y: 0};
-    loseObject.vel.y = random(2, 4);
-    loseObject.vel.x = 0; // No horizontal movement
+
+  // Stop catcher at edges
+  const halfW = 50*SF;
+  if (catcher.x < halfW) catcher.x = halfW;
+  else if (catcher.x > width - halfW) catcher.x = width - halfW;
+
+  // If fallingObject reaches bottom, lose a point
+  if (fallingObject.y >= height) {
+    fallingObject.y = 0; fallingObject.x = random(width); fallingObject.vel.y = random(1, 5); scoreL = scoreL - 1;
   }
 
-    // If fallingObject reaches bottom, lose a point
-    if (fallingObject.y >= height) {
-      fallingObject.y = 0;
-      fallingObject.x = random(width);
-      fallingObject.vel.y = random(2, 4);
-      fallingObject.vel.x = 0;
-      scoreL = scoreL - 1;
-    }
+  // If loseObject reaches bottom, nothing happens
+  if (loseObject.y >= height) {
+    loseObject.y = 0; loseObject.x = random(width); loseObject.vel.y = random(1, 5);
+  }
 
-    // If loseObject reaches bottom, nothing happens
-    if (loseObject.y >= height) {
-      loseObject.y = 0;
-      loseObject.x = random(width);
-      loseObject.vel.y = random(2, 4);
-      loseObject.vel.x = 0;
-    }
+  // If fallingObject collides with catcher, gain a point
+  if (fallingObject.collides(catcher)) {
+    fallingObject.y = 0; fallingObject.x = random(width); fallingObject.vel.y = random(1, 5); fallingObject.direction = 'down'; scoreL = scoreL + 1;
+  }
 
-    // Show mobile controls if on mobile
-    if (isMobile) {
-      showMobileControlsLight();
-    }
+  // If loseObject collides with catcher, lose a point
+  if (loseObject.collides(catcher)) {
+    loseObject.y = 0; loseObject.x = random(width); loseObject.vel.y = random(1, 5); loseObject.direction = 'down'; scoreL = scoreL - 1;
+  }
 
-    // Move catcher - handle both keyboard and mobile touch
-    let leftPressed = kb.pressing('left') || (isMobile && leftButton.mouse.pressing());
-    let rightPressed = kb.pressing('right') || (isMobile && rightButton.mouse.pressing());
-    
-    if (leftPressed) {
-      catcher.vel.x = -5;
-    }
-    else if (rightPressed) {
-      catcher.vel.x = 5;
-    }
-    else {
-      catcher.vel.x = 0;
-    }
+  // Lose condition
+  if (scoreL < 0) {
+    catcher.pos = { x: -200, y: -200 };
+    fallingObject.pos = { x: -200, y: -200 };
+    loseObject.pos = { x: -200, y: -200 };
 
-    // Stop catcher at edges
-    if (catcher.x < 50) {
-      catcher.x = 50;
-    }
-    else if (catcher.x > width - 50) {
-      catcher.x = width - 50;
-    }
-
-    // If fallingObject collides with catcher, gain a point
-    if (fallingObject.collides(catcher)) {
-      fallingObject.y = 0;
-      fallingObject.x = random(width);
-      fallingObject.vel.y = random(2, 4);
-      fallingObject.vel.x = 0;
-      scoreL = scoreL + 1;
-    }
-
-    // If loseObject collides with catcher, lose a point
-    if (loseObject.collides(catcher)) {
-      loseObject.y = 0;
-      loseObject.x = random(width);
-      loseObject.vel.y = random(2, 4);
-      loseObject.vel.x = 0;
-      scoreL = scoreL - 1;
-    }
-
-    // Lose condition
-    if (scoreL < 0) {
-      catcher.pos = { x: -200, y: -200 };
-      fallingObject.pos = { x: -200, y: -200 };
-      loseObject.pos = { x: -200, y: -200 };
-
-      // Hide mobile controls
-      hideMobileControls();
-
-      fill('white');
-      textSize(40);
-      textAlign(CENTER, CENTER);
-      text('Bad Ending', width / 2, height / 2 - 150);
-
-      textSize(20);
-      text('You did not collect enough light orbs. \nNow you are forever trapped in the forest \nwith no hope left.', width / 2, height / 2 + 30);
-
-      // Add restart button
-      restartButton.pos = {x: width/2, y: height/2 + 150};
-      restartButton.w = isMobile ? 120 : 100;
-      restartButton.h = isMobile ? 50 : 40;
-      restartButton.color = '#d9b3ff';
-      restartButton.stroke = '#26004d';
-      restartButton.strokeWeight = 3;
-      restartButton.textColor = 'white';
-      restartButton.text = 'RESTART';
-      restartButton.textSize = isMobile ? 16 : 12;
-      restartButton.collider = 'k';
-
-      noLoop();
-    }
-
-    // Win condition
-    if (scoreL > 9) { // Winning score
-      youWinL();
-    }
-
-    // Score display
-    textAlign(LEFT, BASELINE);
+    drawEndingBackdrop('#00000066');
     fill('white');
-    textSize(20);
-    text('Score = ' + scoreL, 10, 30);
+    textSize(max(24, 40*SF));
+    textAlign(CENTER, CENTER);
+    text('Bad Ending', width / 2, height / 2 - 150*SF);
+
+    textSize(max(12, 18*SF));
+    text('You did not collect enough light orbs. \nNow you are forever trapped in the forest \nwith no hope left.', width / 2, height / 2 + 30*SF);
+
+    showRestart('Try Again');
   }
+
+  // Win condition
+  if (scoreL > 9) { // Winning score
+    youWinL();
+  }
+
+  // Score display
+  textAlign(LEFT, BASELINE);
+  fill('white');
+  textSize(max(14, 20*SF));
+  text('Score = ' + scoreL, 10*SF, 30*SF);
+}
 
 /* FUNCTIONS */
 
-// Win screen
+// Win screen (Light)
 function youWinL() {
-  background(winBackgroundL);
-  
+  image(winBackgroundL, 0, 0, width, height);
+
   catcher.pos = { x: -200, y: -200 };
   fallingObject.pos = { x: -200, y: -200 };
   loseObject.pos = { x: -200, y: -200 };
-  
-  // Hide mobile controls
-  hideMobileControls();
 
-  
-
+  drawEndingBackdrop('#ffffff80');
   fill('black');
-  textSize(40);
+  textSize(max(24, 40*SF));
   textAlign(CENTER, CENTER);
-  text('You have found hope!', width / 2, height / 2 - 150);
+  text('You have found hope!', width / 2, height / 2 - 150*SF);
 
-  textSize(20);
-  text('Good Ending. \nYou collected enough light orbs to escape! \nYou realized that the orbs represented you, \nyour good side and bad side. \n\nSuccess is not final,\n failure is not fatal:\n It is the courage to continue that counts.', width / 2, height / 2 + 30);
-  
-  // Add restart button
-  restartButton.pos = {x: width/2, y: height/2 + 150};
-  restartButton.w = isMobile ? 120 : 100;
-  restartButton.h = isMobile ? 50 : 40;
-  restartButton.color = '#d9b3ff';
-  restartButton.stroke = '#26004d';
-  restartButton.strokeWeight = 3;
-  restartButton.textColor = 'white';
-  restartButton.text = 'RESTART';
-  restartButton.textSize = isMobile ? 16 : 12;
-  restartButton.collider = 'k';
+  textSize(max(12, 18*SF));
+  text('Good Ending. \nYou collected enough light orbs to escape! \nYou realized that the orbs represented you, \nyour good side and bad side. \n\nSuccess is not final,\n failure is not fatal:\n It is the courage to continue that counts.', width / 2, height / 2 + 30*SF);
 
-  noLoop(); // Stop game after win
+  showRestart('Play Again');
 }
 
+// Soft translucent panel so restart button never covers text
+function drawEndingBackdrop(col){
+  noStroke(); fill(col);
+  const pad = 24*SF;
+  rect(pad, pad, width - pad*2, height - 120*SF - pad*2, 16*SF);
+}
+
+// Show restart button anchored near bottom
+function showRestart(label){
+  restartButton.pos = {x: width/2, y: height - 60*SF};
+  styleButton(restartButton, 180, 48, '#6d28d9', '#a78bfa', label, 18);
+}
+
+// Full reset back to title
+function hardRestartToTitle(){
+  // Reset scores and state
+  scoreD = 5; scoreL = 1; screen = 0;
+
+  // Re-center key sprites
+  player.pos = {x: width/2, y: 20*SF};
+  catcher.pos = {x: width/2, y: height - 20*SF};
+
+  // Respawn avoiders
+  avoider1.pos = {x: 50*SF,  y: 230*SF}; avoider1.vel.x = 3;
+  avoider2.pos = {x: -100,   y: 200*SF}; avoider2.vel.x = 5;
+  avoider3.pos = {x: -100,   y: 300*SF}; avoider3.vel.x = 7;
+  avoider4.pos = {x: -150,   y: 250*SF}; avoider4.vel.x = 4;
+  avoider5.pos = {x: -80,    y: 350*SF}; avoider5.vel.x = 2;
+
+  fallingObject.pos = {x: 100, y: 0}; fallingObject.vel.y = 2;
+  loseObject.pos    = {x: 100, y: 0}; loseObject.vel.y    = 2;
+
+  // Hide restart
+  restartButton.pos = {x: -200, y: -200};
+}
+
+/* -------------------------
+   MISC
+------------------------- */
 function keyPressed() {
-  // Toggle music with M key
-  if (key === 'm' || key === 'spacebar') {
-    if (soundMusic.isPlaying()) {
+  // Toggle music with M key or Spacebar
+  if (key.toLowerCase() === 'm' || key === ' ' || key === 'Spacebar') {
+    if (soundMusic && soundMusic.isPlaying()) {
       soundMusic.pause();
-    } else {
+    } else if (soundMusic) {
       soundMusic.loop();
     }
   }
 }
-
-// Mobile control functions
-function setupMobileControls() {
-  if (!isMobile) return;
-  
-  // Left button
-  leftButton.w = 60;
-  leftButton.h = 60;
-  leftButton.color = '#2E1065';
-  leftButton.stroke = '#7A00E6';
-  leftButton.strokeWeight = 3;
-  leftButton.textColor = 'white';
-  leftButton.text = '←';
-  leftButton.textSize = 24;
-  leftButton.collider = 'k';
-
-  // Right button
-  rightButton.w = 60;
-  rightButton.h = 60;
-  rightButton.color = '#2E1065';
-  rightButton.stroke = '#7A00E6';
-  rightButton.strokeWeight = 3;
-  rightButton.textColor = 'white';
-  rightButton.text = '→';
-  rightButton.textSize = 24;
-  rightButton.collider = 'k';
-
-  // Up button
-  upButton.w = 60;
-  upButton.h = 60;
-  upButton.color = '#2E1065';
-  upButton.stroke = '#7A00E6';
-  upButton.strokeWeight = 3;
-  upButton.textColor = 'white';
-  upButton.text = '↑';
-  upButton.textSize = 24;
-  upButton.collider = 'k';
-
-  // Down button
-  downButton.w = 60;
-  downButton.h = 60;
-  downButton.color = '#2E1065';
-  downButton.stroke = '#7A00E6';
-  downButton.strokeWeight = 3;
-  downButton.textColor = 'white';
-  downButton.text = '↓';
-  downButton.textSize = 24;
-  downButton.collider = 'k';
-}
-
-function showMobileControls() {
-  if (!isMobile) return;
-  
-  // Position controls for dark path minigame (4-way movement) - responsive to screen size
-  leftButton.pos = {x: width * 0.15, y: height - 60};
-  rightButton.pos = {x: width * 0.45, y: height - 60};
-  upButton.pos = {x: width * 0.3, y: height - 120};
-  downButton.pos = {x: width * 0.3, y: height - 60};
-}
-
-function showMobileControlsLight() {
-  if (!isMobile) return;
-  
-  // Position controls for light path minigame (left/right only) - responsive to screen size
-  leftButton.pos = {x: width * 0.2, y: height - 60};
-  rightButton.pos = {x: width * 0.8, y: height - 60};
-  upButton.pos = {x: -200, y: -200}; // Hide up/down buttons
-  downButton.pos = {x: -200, y: -200};
-}
-
-function hideMobileControls() {
-  if (!isMobile) return;
-  
-  leftButton.pos = {x: -200, y: -200};
-  rightButton.pos = {x: -200, y: -200};
-  upButton.pos = {x: -200, y: -200};
-  downButton.pos = {x: -200, y: -200};
-}
-
-
-
-// Restart game function
-function restartGame() {
-  // Stop music
-  if (soundMusic.isPlaying()) {
-    soundMusic.stop();
-  }
-  
-  // Reset all variables to initial state
-  screen = 0;
-  scoreD = 5;
-  scoreL = 1;
-  
-  // Reset player position to off-screen initially (will be positioned correctly on title screen)
-  player.pos = {x: -100, y: -100};
-  player.vel = {x: 0, y: 0};
-  
-  // Reset avoiders to their initial off-screen positions
-  avoider1.pos = {x: 50, y: height * 0.575};
-  avoider1.vel.x = 3;
-  avoider2.pos = {x: -100, y: height * 0.5};
-  avoider2.vel.x = 5;
-  avoider3.pos = {x: -100, y: height * 0.75};
-  avoider3.vel.x = 7;
-  avoider4.pos = {x: -150, y: height * 0.625};
-  avoider4.vel.x = 4;
-  avoider5.pos = {x: -80, y: height * 0.875};
-  avoider5.vel.x = 2;
-  
-  // Reset light path sprites to off-screen
-  catcher.pos = {x: -100, y: -100};
-  catcher.vel = {x: 0, y: 0};
-  fallingObject.pos = {x: -100, y: -100};
-  fallingObject.vel = {x: 0, y: 2};
-  loseObject.pos = {x: -100, y: -100};
-  loseObject.vel = {x: 0, y: 2};
-  
-  // Reset all buttons to off-screen positions except enter button
-  enterButton.pos = {x: width/2, y: height/2 + 130};
-  a1Button.pos = {x: -200, y: -200};
-  a2Button.pos = {x: -200, y: -200};
-  startButtonD.pos = {x: -200, y: -200};
-  startButtonL.pos = {x: -200, y: -200};
-  nextButtonD1.pos = {x: -200, y: -200};
-  nextButtonL1.pos = {x: -200, y: -200};
-  continueButton.pos = {x: -200, y: -200};
-  restartButton.pos = {x: -200, y: -200};
-  
-  // Hide mobile controls
-  hideMobileControls();
-  
-  // Clear the background and set it to the title screen
-  background(backgroundImage);
-  
-  // Resume the game loop
-  loop();
-}
-
-// Make canvas responsive when window is resized
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
-// // Listen for mouse click to restart after win/lose
-// function mousePressed() {
-//   // Restart functionality removed
-// }
-
-// function badEnding(){
-//   background(darkPathbackgroundImage)
-//   a1Button.pos = {x: -200, y: -200};
-//   a2Button.pos = {x: -200, y: -200};
-//   nextButtonD1.pos = {x: -200, y: -200};
-
-//   textFont(textFont1);
-//   textSize(20);
-//   fill(255, 255, 255);
-//   textAlign(CENTER, CENTER);
-//   text('You have lost. ',
-//        width/2,
-//        height/2 - 50);
-
-
-// }
-
-// function goodEnding(){
-//   background(lightPathbackgroundImage)
-//   a1Button.pos = {x: -200, y: -200};
-//   a2Button.pos = {x: -200, y: -200};
-//   nextButtonD1.pos = {x: -200, y: -200};
-
-//   textFont(textFont1);
-//   textSize(20);
-//   fill(255, 255, 255);
-//   textAlign(CENTER, CENTER);
-//   text('You have win',
-//        width/2,
-//        height/2 - 50);
-
-
-// }
-
-// function credits(){
-
-// }
-

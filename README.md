@@ -1,3 +1,10 @@
+# About This Project
+I made this project for Girls Who Code SIP program with the Game Jam for 4 days. It was engaging and fun. 
+This project reference a story from Anansi and protrays hope to those alone. It's a story game with minigames as part of the story that is 
+the conflict. There are 4 endings in this game, 2 that are good and 2 that are bad for each path. This is the first time I ever coded a project
+by myself.
+
+
 # Game Jam Starter Code
 This is a place for you to start building your Game Jam Project!
 
@@ -46,4 +53,6 @@ That's this file. This is the place to tell people more about what your game doe
 ### ← style.css
 
 The CSS file adds styling rules to your content like changing colors and fonts. We will not use this file for our game and instead update the style of our game in the script.js file.  
+
+
 

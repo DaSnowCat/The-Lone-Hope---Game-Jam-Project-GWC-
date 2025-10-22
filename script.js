@@ -1,7 +1,4 @@
-/* =========================
-   THE LONE HOPE — MOBILE + PC FRIENDLY
-   p5.js + p5play (keep original flow, add responsiveness, touch controls, restart)
-   ========================= */
+// THE LONE HOPE (with touchscreen features added)
 
 /* VARIABLES */
 let backgroundImage;
@@ -590,9 +587,7 @@ function hardRestartToTitle() {
   restartButton.pos = { x: -200, y: -200 };
 }
 
-/* -------------------------
-   MISC
-------------------------- */
+
 function keyPressed() {
   // Toggle music with M key or Spacebar
   if (key.toLowerCase() === 'm' || key === ' ' || key === 'Spacebar') {

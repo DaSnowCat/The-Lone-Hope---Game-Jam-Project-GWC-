@@ -4,6 +4,8 @@ This project reference a story from Anansi and protrays hope to those alone. It'
 the conflict. There are 4 endings in this game, 2 that are good and 2 that are bad for each path. This is the first time I ever coded a project
 by myself.
 
+[![Athena Award Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Faward.athena.hackclub.com%2Fapi%2Fbadge)](https://award.athena.hackclub.com?utm_source=readme)
+
 
 # Game Jam Starter Code
 This is a place for you to start building your Game Jam Project!
